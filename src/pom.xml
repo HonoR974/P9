@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- =============================================================== -->
+    <!-- Project informations -->
+    <!-- =============================================================== -->
+    <!-- ===== Maven ===== -->
+    <groupId>com.dummy.myerp</groupId>
+    <artifactId>myerp</artifactId>
+    <version>1.x.x-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <!-- ===== General information ===== -->
+    <name>MyERP</name>
+    <description>
+        ERP sur-mesure pour Dummy...
+    </description>
+    <url>http://www.dummy.com/projects/myerp</url>
+
+    <!-- ===== Organization ===== -->
+    <organization>
+        <name>Dummy</name>
+        <url>http://www.dummy.com</url>
+    </organization>
+
+
+    <!-- =============================================================== -->
+    <!-- Distrubution management -->
+    <!-- =============================================================== -->
+    <distributionManagement>
+        <site>
+            <id>site</id>
+            <name>site-doc</name>
+            <url>file://${project.build.directory}/site-doc/</url>
+        </site>
+    </distributionManagement>
+
+
+    <!-- =============================================================== -->
+    <!-- Properties -->
+    <!-- =============================================================== -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <maven.build.timestamp.format>dd/MM/yyyy</maven.build.timestamp.format>
+        <buildTime>${maven.build.timestamp}</buildTime>
+
+        <!-- ===== Application properties ===== -->
+        <application.name>MyERP</application.name>
+
+        <!-- ===== Version properties ===== -->
+        <log4j.version>2.8.1</log4j.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
+    </properties>
+
+
+    <!-- =============================================================== -->
+    <!-- Modules -->
+    <!-- =============================================================== -->
+    <modules>
+        <module>myerp-technical</module>
+        <module>myerp-model</module>
+        <module>myerp-consumer</module>
+        <module>myerp-business</module>
+    </modules>
+
+
+    <!-- =============================================================== -->
+    <!-- Profiles -->
+    <!-- =============================================================== -->
+    <profiles>
+        <!-- Profile utilisé par le plugin m2e d'Eclipse -->
+        <profile>
+            <id>m2e</id>
+            <activation>
+                <property>
+                    <name>m2e.version</name>
+                </property>
+            </activation>
+            <properties>
+                <maven.build.timestamp>DD/MM/YYYY</maven.build.timestamp>
+            </properties>
+        </profile>
+
+        <!-- Profile utilisé pour lancer les tests d'intégration de la couche Business -->
+        <profile>
+            <id>test-business</id>
+        </profile>
+
+        <!-- Profile utilisé pour lancer les tests d'intégration de la couche Consumer -->
+        <profile>
+            <id>test-consumer</id>
+        </profile>
+    </profiles>
+
+
+    <!-- =============================================================== -->
+    <!-- Repositories -->
+    <!-- =============================================================== -->
+    <repositories>
+        <!-- ===== Project local repository ===== -->
+        <repository>
+            <id>project.local</id>
+            <name>project.local</name>
+            <url>file://${basedir}/../src/lib/</url>
+            <releases>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+
+
+    <!-- =============================================================== -->
+    <!-- Dependency managment -->
+    <!-- =============================================================== -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- ========== Modules ========== -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>myerp-technical</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>myerp-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>myerp-consumer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>myerp-business</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <!-- ========== Libraries ========== -->
+            <!-- ===== Log4j ===== -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <!-- Commons Logging Bridge -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-jcl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <!-- Log4j 2 SLF4J Binding -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <!-- ===== JSR 303 - Bean validation ===== -->
+            <!-- interface -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.1.0.Final</version>
+            </dependency>
+            <!-- implementation -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>4.2.0.Final</version>
+            </dependency>
+
+            <!-- ===== Apache Commons ===== -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.5</version>
+            </dependency>
+
+            <!-- ===== Spring IOC ===== -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- ===== Spring JDBC/Tx ===== -->
+            <!-- spring-tx : transaction, JCA, DAO -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- spring-jdbc : commons-exceptions, datasource management -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- ===== Database ===== -->
+            <!-- DB Connection pool -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>2.1.1</version>
+            </dependency>
+            <!-- JDBC Drivers : PostgreSQL -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>9.4.1212</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- ===== Test unitaires ===== -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <!-- =============================================================== -->
+    <!-- Dependencies -->
+    <!-- =============================================================== -->
+    <dependencies>
+    </dependencies>
+
+
+    <!-- =============================================================== -->
+    <!-- Build -->
+    <!-- =============================================================== -->
+    <build>
+        <!-- =============================================================== -->
+        <!-- pluginManagement -->
+        <!-- =============================================================== -->
+        <pluginManagement>
+            <plugins>
+                <!-- ===== Java compilation ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.6.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+
+                <!-- ===== "Filtrage/Parsing" des resources ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+
+                <!-- ===== Gestion des dépendences ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.0</version>
+                </plugin>
+
+                <!-- ===== Création des JAR ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+
+                <!-- ===== Création des WAR (webapp) ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <!-- ===== Assemblage d'éléments (ex: génération du ZIP de déploiement des batches) ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <!-- ===== Déploiement des artifacts ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+
+                <!-- ===== Test / Reporting ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20</version>
+                </plugin>
+
+                <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.17</version>
+                    <configuration>
+                        <configLocation>src/build/checkstyle.xml</configLocation>
+                    </configuration>
+                </plugin>
+
+                <!-- ===== Plugin de génération d'un site de documentation du projet ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.6</version>
+                    <inherited>true</inherited>
+                    <configuration>
+                        <locales>fr</locales>
+                        <relativizeDecorationLinks>false</relativizeDecorationLinks>
+                    </configuration>
+                </plugin>
+
+                <!-- ===== Project info ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>
+
+                <!-- ===== Javadoc ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.4</version>
+                </plugin>
+
+                <!-- ===== Aide au constructions particulières ===== -->
+                <!-- Ex : Ajout de répertoire de sources générées en tant que source d'un module -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.10</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+
+    <!-- =============================================================== -->
+    <!-- Reporting -->
+    <!-- =============================================================== -->
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+        <outputDirectory>${project.build.directory}/site</outputDirectory>
+        <plugins>
+            <!-- ===== Génération du site de documentation de base avec les "rapports génériques" ===== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>summary</report>
+                            <report>license</report>
+                            <report>modules</report>
+                            <report>dependencies</report>
+                            <report>dependency-convergence</report>
+                            <report>dependency-management</report>
+                            <report>plugin-management</report>
+                            <report>plugins</report>
+                            <report>project-team</report>
+                            <report>scm</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <!-- ===== Création du rapport des tests unitaires (JUnit) ===== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <reportSets>
+                    <!-- reportSet par défaut, exécuté dans tous les modules (non-aggregate reports) -->
+                    <reportSet>
+                        <reports>
+                            <!-- goal "report-only" afin de ne pas relancer les tests unitaires
+                                 car normalement ils ont été lancés par la phase compile -->
+                            <report>report-only</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <!-- reportSet d'agrégation des rapports des sous-modules -->
+                        <id>aggregate</id>
+                        <!-- don't run aggregate in child modules -->
+                        <inherited>false</inherited>
+                        <reports>
+                            <!-- goal "report-only" afin de ne pas relancer les tests unitaires
+                                 car normalement ils ont été lancés par la phase compile -->
+                            <report>report-only</report>
+                        </reports>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                        </configuration>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <!-- ===== Génération de la Javadoc ===== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <!-- Définition de l'exécutable de javadoc à utiliser si on ne prend pas celui par défaut -->
+                    <!--javadocExecutable>/opt/java/jdk8/bin/javadoc</javadocExecutable -->
+                    <quiet>true</quiet>
+                    <locale>fr</locale>
+                    <!-- Définition des "groupes" de javadoc -->
+                    <groups>
+                        <group>
+                            <title>Application</title>
+                            <packages>com.dummy.myerp*</packages>
+                        </group>
+                    </groups>
+                </configuration>
+                <reportSets>
+                    <!-- reportSet par défaut, exécuté dans tous les modules (non-aggregate reports) -->
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                    <!-- reportSet d'agrégation des rapports des sous-modules -->
+                    <reportSet>
+                        <id>aggregate</id>
+                        <!-- don't run aggregate in child modules -->
+                        <inherited>false</inherited>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <!-- ===== Création du rapport d'analyse du code par Checkstyle ===== -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <configLocation>src/build/checkstyle.xml</configLocation>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <reportSets>
+                    <!-- reportSet par défaut, exécuté dans tous les modules (non-aggregate reports) -->
+                    <reportSet>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                    <!-- reportSet d'agrégation des rapports des sous-modules -->
+                    <reportSet>
+                        <id>checkstyle-aggregate</id>
+                        <!-- don't run aggregate in child modules -->
+                        <inherited>false</inherited>
+                        <configuration>
+                            <!-- Skip checktyle execution will only scan the outputFile. -->
+                            <skipExec>true</skipExec>
+                        </configuration>
+                        <reports>
+                            <report>checkstyle-aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>

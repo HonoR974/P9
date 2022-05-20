@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+
+    <!-- ==================== Injection des requêtes SQL ==================== -->
+
+
+    <!-- ========== ComptabiliteDaoImpl ========== -->
+    <bean id="ComptabiliteDaoImpl" class="com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl"
+          factory-method="getInstance">
+        <property name="SQLgetListCompteComptable">
+            <value>
+                SELECT * FROM myerp.compte_comptable
+            </value>
+        </property>
+        <property name="SQLgetListJournalComptable">
+            <value>
+                SELECT * FROM myerp.journal_comptable
+            </value>
+        </property>
+        <property name="SQLgetListEcritureComptable">
+            <value>
+                SELECT * FROM myerp.ecriture_comptable
+            </value>
+        </property>
+        <property name="SQLgetEcritureComptable">
+            <value>
+                SELECT * FROM myerp.ecriture_comptable
+                WHERE id = :id
+            </value>
+        </property>
+        <property name="SQLgetEcritureComptableByRef">
+            <value>
+                SELECT * FROM myerp.ecriture_comptable
+                WHERE reference = :reference
+            </value>
+        </property>
+        <property name="SQLloadListLigneEcriture">
+            <value>
+                SELECT * FROM myerp.ligne_ecriture_comptable
+                WHERE ecriture_id = :ecriture_id
+                ORDER BY ligne_id
+            </value>
+        </property>
+        <property name="SQLinsertEcritureComptable">
+            <value>
+                INSERT INTO myerp.ecriture_comptable (
+                    id,
+                    journal_code, reference, date, libelle
+                ) VALUES (
+                    nextval('myerp.ecriture_comptable_id_seq'),
+                    :journal_code, :reference, :date, :libelle
+                )
+            </value>
+        </property>
+        <property name="SQLinsertListLigneEcritureComptable">
+            <value>
+                INSERT INTO myerp.ligne_ecriture_comptable (
+                    ecriture_id, ligne_id, compte_comptable_numero, libelle, debit
+                    credit
+                ) VALUES (
+                    :ecriture_id, :ligne_id, :compte_comptable_numero, :libelle, :debit,
+                    :credit
+                )
+            </value>
+        </property>
+        <property name="SQLupdateEcritureComptable">
+            <value>
+                UPDATE myerp.ecriture_comptable SET
+                    journal_code = :journal_code,
+                    reference = :reference,
+                    date = :date,
+                    libelle = :libelle
+                WHERE
+                    id = :id
+            </value>
+        </property>
+        <property name="SQLdeleteEcritureComptable">
+            <value>
+                DELETE FROM myerp.ecriture_comptable
+                WHERE id = :id
+            </value>
+        </property>
+        <property name="SQLdeleteListLigneEcritureComptable">
+            <value>
+                DELETE FROM myerp.ligne_ecriture_comptable
+                WHERE ecriture_id = :ecriture_id
+            </value>
+        </property>
+    </bean>
+
+</beans>
