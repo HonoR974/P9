@@ -20,7 +20,6 @@ import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
-
 /**
  * Implémentation de l'interface {@link ComptabiliteDao}
  */
@@ -46,13 +45,20 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         super();
     }
 
-
     // ==================== Méthodes ====================
     /** SQLgetListCompteComptable */
     private static String SQLgetListCompteComptable;
+
+    /**
+     * @param pSQLgetListCompteComptable
+     */
     public void setSQLgetListCompteComptable(String pSQLgetListCompteComptable) {
         SQLgetListCompteComptable = pSQLgetListCompteComptable;
     }
+
+    /**
+     * @return List<CompteComptable>
+     */
     @Override
     public List<CompteComptable> getListCompteComptable() {
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
@@ -61,12 +67,19 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         return vList;
     }
 
-
     /** SQLgetListJournalComptable */
     private static String SQLgetListJournalComptable;
+
+    /**
+     * @param pSQLgetListJournalComptable
+     */
     public void setSQLgetListJournalComptable(String pSQLgetListJournalComptable) {
         SQLgetListJournalComptable = pSQLgetListJournalComptable;
     }
+
+    /**
+     * @return List<JournalComptable>
+     */
     @Override
     public List<JournalComptable> getListJournalComptable() {
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
@@ -79,9 +92,17 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
     /** SQLgetListEcritureComptable */
     private static String SQLgetListEcritureComptable;
+
+    /**
+     * @param pSQLgetListEcritureComptable
+     */
     public void setSQLgetListEcritureComptable(String pSQLgetListEcritureComptable) {
         SQLgetListEcritureComptable = pSQLgetListEcritureComptable;
     }
+
+    /**
+     * @return List<EcritureComptable>
+     */
     @Override
     public List<EcritureComptable> getListEcritureComptable() {
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
@@ -90,12 +111,21 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         return vList;
     }
 
-
     /** SQLgetEcritureComptable */
     private static String SQLgetEcritureComptable;
+
+    /**
+     * @param pSQLgetEcritureComptable
+     */
     public void setSQLgetEcritureComptable(String pSQLgetEcritureComptable) {
         SQLgetEcritureComptable = pSQLgetEcritureComptable;
     }
+
+    /**
+     * @param pId
+     * @return EcritureComptable
+     * @throws NotFoundException
+     */
     @Override
     public EcritureComptable getEcritureComptable(Integer pId) throws NotFoundException {
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
@@ -111,12 +141,21 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         return vBean;
     }
 
-
     /** SQLgetEcritureComptableByRef */
     private static String SQLgetEcritureComptableByRef;
+
+    /**
+     * @param pSQLgetEcritureComptableByRef
+     */
     public void setSQLgetEcritureComptableByRef(String pSQLgetEcritureComptableByRef) {
         SQLgetEcritureComptableByRef = pSQLgetEcritureComptableByRef;
     }
+
+    /**
+     * @param pReference
+     * @return EcritureComptable
+     * @throws NotFoundException
+     */
     @Override
     public EcritureComptable getEcritureComptableByRef(String pReference) throws NotFoundException {
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
@@ -132,12 +171,19 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         return vBean;
     }
 
-
     /** SQLloadListLigneEcriture */
     private static String SQLloadListLigneEcriture;
+
+    /**
+     * @param pSQLloadListLigneEcriture
+     */
     public void setSQLloadListLigneEcriture(String pSQLloadListLigneEcriture) {
         SQLloadListLigneEcriture = pSQLloadListLigneEcriture;
     }
+
+    /**
+     * @param pEcritureComptable
+     */
     @Override
     public void loadListLigneEcriture(EcritureComptable pEcritureComptable) {
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
@@ -149,14 +195,21 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         pEcritureComptable.getListLigneEcriture().addAll(vList);
     }
 
-
     // ==================== EcritureComptable - INSERT ====================
 
     /** SQLinsertEcritureComptable */
     private static String SQLinsertEcritureComptable;
+
+    /**
+     * @param pSQLinsertEcritureComptable
+     */
     public void setSQLinsertEcritureComptable(String pSQLinsertEcritureComptable) {
         SQLinsertEcritureComptable = pSQLinsertEcritureComptable;
     }
+
+    /**
+     * @param pEcritureComptable
+     */
     @Override
     public void insertEcritureComptable(EcritureComptable pEcritureComptable) {
         // ===== Ecriture Comptable
@@ -171,7 +224,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
         // ----- Récupération de l'id
         Integer vId = this.queryGetSequenceValuePostgreSQL(DataSourcesEnum.MYERP, "myerp.ecriture_comptable_id_seq",
-                                                           Integer.class);
+                Integer.class);
         pEcritureComptable.setId(vId);
 
         // ===== Liste des lignes d'écriture
@@ -180,11 +233,17 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
     /** SQLinsertListLigneEcritureComptable */
     private static String SQLinsertListLigneEcritureComptable;
+
+    /**
+     * @param pSQLinsertListLigneEcritureComptable
+     */
     public void setSQLinsertListLigneEcritureComptable(String pSQLinsertListLigneEcritureComptable) {
         SQLinsertListLigneEcritureComptable = pSQLinsertListLigneEcritureComptable;
     }
+
     /**
      * Insert les lignes d'écriture de l'écriture comptable
+     * 
      * @param pEcritureComptable l'écriture comptable
      */
     protected void insertListLigneEcritureComptable(EcritureComptable pEcritureComptable) {
@@ -206,14 +265,21 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         }
     }
 
-
     // ==================== EcritureComptable - UPDATE ====================
 
     /** SQLupdateEcritureComptable */
     private static String SQLupdateEcritureComptable;
+
+    /**
+     * @param pSQLupdateEcritureComptable
+     */
     public void setSQLupdateEcritureComptable(String pSQLupdateEcritureComptable) {
         SQLupdateEcritureComptable = pSQLupdateEcritureComptable;
     }
+
+    /**
+     * @param pEcritureComptable
+     */
     @Override
     public void updateEcritureComptable(EcritureComptable pEcritureComptable) {
         // ===== Ecriture Comptable
@@ -232,14 +298,21 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         this.insertListLigneEcritureComptable(pEcritureComptable);
     }
 
-
     // ==================== EcritureComptable - DELETE ====================
 
     /** SQLdeleteEcritureComptable */
     private static String SQLdeleteEcritureComptable;
+
+    /**
+     * @param pSQLdeleteEcritureComptable
+     */
     public void setSQLdeleteEcritureComptable(String pSQLdeleteEcritureComptable) {
         SQLdeleteEcritureComptable = pSQLdeleteEcritureComptable;
     }
+
+    /**
+     * @param pId
+     */
     @Override
     public void deleteEcritureComptable(Integer pId) {
         // ===== Suppression des lignes d'écriture
@@ -254,11 +327,18 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
     /** SQLdeleteListLigneEcritureComptable */
     private static String SQLdeleteListLigneEcritureComptable;
+
+    /**
+     * @param pSQLdeleteListLigneEcritureComptable
+     */
     public void setSQLdeleteListLigneEcritureComptable(String pSQLdeleteListLigneEcritureComptable) {
         SQLdeleteListLigneEcritureComptable = pSQLdeleteListLigneEcritureComptable;
     }
+
     /**
-     * Supprime les lignes d'écriture de l'écriture comptable d'id {@code pEcritureId}
+     * Supprime les lignes d'écriture de l'écriture comptable d'id
+     * {@code pEcritureId}
+     * 
      * @param pEcritureId id de l'écriture comptable
      */
     protected void deleteListLigneEcritureComptable(Integer pEcritureId) {

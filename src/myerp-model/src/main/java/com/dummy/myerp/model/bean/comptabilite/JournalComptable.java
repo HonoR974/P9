@@ -5,7 +5,6 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
 /**
  * Bean représentant un Journal Comptable
  */
@@ -22,7 +21,6 @@ public class JournalComptable {
     @Size(min = 1, max = 150)
     private String libelle;
 
-
     // ==================== Constructeurs ====================
     /**
      * Instantiates a new Journal comptable.
@@ -33,7 +31,7 @@ public class JournalComptable {
     /**
      * Instantiates a new Journal comptable.
      *
-     * @param pCode the p code
+     * @param pCode    the p code
      * @param pLibelle the p libelle
      */
     public JournalComptable(String pCode, String pLibelle) {
@@ -41,38 +39,55 @@ public class JournalComptable {
         libelle = pLibelle;
     }
 
-
+    /**
+     * @return String
+     */
     // ==================== Getters/Setters ====================
     public String getCode() {
         return code;
     }
+
+    /**
+     * @param pCode
+     */
     public void setCode(String pCode) {
         code = pCode;
     }
+
+    /**
+     * @return String
+     */
     public String getLibelle() {
         return libelle;
     }
+
+    /**
+     * @param pLibelle
+     */
     public void setLibelle(String pLibelle) {
         libelle = pLibelle;
     }
 
-
+    /**
+     * @return String
+     */
     // ==================== Méthodes ====================
     @Override
     public String toString() {
         final StringBuilder vStB = new StringBuilder(this.getClass().getSimpleName());
         final String vSEP = ", ";
         vStB.append("{")
-            .append("code='").append(code).append('\'')
-            .append(vSEP).append("libelle='").append(libelle).append('\'')
-            .append("}");
+                .append("code='").append(code).append('\'')
+                .append(vSEP).append("libelle='").append(libelle).append('\'')
+                .append("}");
         return vStB.toString();
     }
 
-
     // ==================== Méthodes STATIC ====================
     /**
-     * Renvoie le {@link JournalComptable} de code {@code pCode} s'il est présent dans la liste
+     * Renvoie le {@link JournalComptable} de code {@code pCode}
+     * s'il est présent
+     * dans la liste
      *
      * @param pList la liste où chercher le {@link JournalComptable}
      * @param pCode le code du {@link JournalComptable} à chercher

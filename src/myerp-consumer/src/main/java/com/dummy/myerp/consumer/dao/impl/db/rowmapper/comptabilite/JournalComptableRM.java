@@ -6,12 +6,17 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 
-
 /**
  * {@link RowMapper} de {@link JournalComptable}
  */
 public class JournalComptableRM implements RowMapper<JournalComptable> {
 
+    /**
+     * @param pRS
+     * @param pRowNum
+     * @return JournalComptable
+     * @throws SQLException
+     */
     @Override
     public JournalComptable mapRow(ResultSet pRS, int pRowNum) throws SQLException {
         JournalComptable vBean = new JournalComptable();

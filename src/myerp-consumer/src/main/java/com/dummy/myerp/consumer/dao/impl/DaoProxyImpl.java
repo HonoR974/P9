@@ -3,16 +3,16 @@ package com.dummy.myerp.consumer.dao.impl;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 
-
 /**
- * <p>Implémentation du Proxy d'accès à la couche DAO.</p>
+ * <p>
+ * Implémentation du Proxy d'accès à la couche DAO.
+ * </p>
  */
 public final class DaoProxyImpl implements DaoProxy {
 
     // ==================== Attributs ====================
     /** {@link ComptabiliteDao} */
     private ComptabiliteDao comptabiliteDao;
-
 
     // ==================== Constructeurs ====================
     /** Instance unique de la classe (design pattern Singleton) */
@@ -34,11 +34,17 @@ public final class DaoProxyImpl implements DaoProxy {
         super();
     }
 
-
+    /**
+     * @return ComptabiliteDao
+     */
     // ==================== Getters/Setters ====================
     public ComptabiliteDao getComptabiliteDao() {
         return this.comptabiliteDao;
     }
+
+    /**
+     * @param pComptabiliteDao
+     */
     public void setComptabiliteDao(ComptabiliteDao pComptabiliteDao) {
         this.comptabiliteDao = pComptabiliteDao;
     }

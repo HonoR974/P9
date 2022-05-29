@@ -8,7 +8,6 @@ import com.dummy.myerp.consumer.ConsumerHelper;
 import com.dummy.myerp.consumer.dao.impl.cache.JournalComptableDaoCache;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 
-
 /**
  * {@link RowMapper} de {@link EcritureComptable}
  */
@@ -17,7 +16,12 @@ public class EcritureComptableRM implements RowMapper<EcritureComptable> {
     /** JournalComptableDaoCache */
     private final JournalComptableDaoCache journalComptableDaoCache = new JournalComptableDaoCache();
 
-
+    /**
+     * @param pRS
+     * @param pRowNum
+     * @return EcritureComptable
+     * @throws SQLException
+     */
     @Override
     public EcritureComptable mapRow(ResultSet pRS, int pRowNum) throws SQLException {
         EcritureComptable vBean = new EcritureComptable();
