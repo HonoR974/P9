@@ -17,7 +17,6 @@ public class ComptabiliteManagerImplTest {
         @Test
         public void getListCompteComptable() {
 
-                
         }
 
         /**
@@ -37,6 +36,7 @@ public class ComptabiliteManagerImplTest {
                                 null, null,
                                 new BigDecimal(123)));
                 manager.checkEcritureComptableUnit(vEcritureComptable);
+
         }
 
         /**

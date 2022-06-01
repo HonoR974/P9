@@ -1,5 +1,6 @@
 {
     "javadoc-tools.generateJavadoc.isUsingPwsh": false,
     "javadoc-tools.generateJavadoc.targetFolder": "D:\\WorkSpace\\DepotGithub\\P9\\doc",
-    "javadoc-tools.generateJavadoc.workspaceSourceFolder": "D:\\WorkSpace\\DepotGithub\\P9\\doc"
+    "javadoc-tools.generateJavadoc.workspaceSourceFolder": "D:\\WorkSpace\\DepotGithub\\P9\\doc",
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
