@@ -17,6 +17,7 @@ public class ComptabiliteManagerImplTest {
         @Test
         public void getListCompteComptable() {
 
+                
         }
 
         /**

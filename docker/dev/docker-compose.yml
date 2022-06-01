@@ -1,5 +1,6 @@
 version: '2'
 services:
+
   myerp.db:
     image: postgres:9.4
     ports:
@@ -11,4 +12,17 @@ services:
       - POSTGRES_DB=db_myerp
       - POSTGRES_USER=usr_myerp
       - POSTGRES_PASSWORD=myerp
-      
+
+  jenkins:
+      image: jenkins/jenkins:lts
+      privileged: true
+      user: root
+      ports:
+         - 8080:8080
+         - 50000:50000
+      container_name: jenkins
+      volumes:
+        - ~/jenkins:/var/jenkins_home
+        - /srv/data/jenkins_data:/jenkins_home
+        - /srv/data/jenkins:/var/jenkins_config
+
