@@ -51,8 +51,8 @@
         <application.name>MyERP</application.name>
 
         <!-- ===== Version properties ===== -->
-        <log4j.version>2.8.1</log4j.version>
-        <spring.version>4.3.7.RELEASE</spring.version>
+        <log4j.version>2.17.2</log4j.version>
+        <spring.version>5.3.20</spring.version>
     </properties>
 
 
@@ -176,7 +176,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>4.2.0.Final</version>
+                <version>8.0.0.Alpha2</version>
             </dependency>
 
             <!-- ===== Apache Commons ===== -->
@@ -238,7 +238,7 @@
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
-                <version>9.4.1212</version>
+                <version>42.3.5</version>
                 <scope>runtime</scope>
             </dependency>
 
