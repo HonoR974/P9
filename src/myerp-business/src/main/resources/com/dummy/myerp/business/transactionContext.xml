@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+    xmlns="http://www.springframework.org/schema/beans" xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Transaction Manager -->
-    <bean id="TransactionManager"
-          class="com.dummy.myerp.business.impl.TransactionManager"
-          scope="singleton"
-          factory-method="getInstance">
+    <bean id="transactionManager" class="com.dummy.myerp.business.impl.TransactionManager" factory-method="getInstance">
         <constructor-arg ref="txManagerMYERP"/>
     </bean>
 

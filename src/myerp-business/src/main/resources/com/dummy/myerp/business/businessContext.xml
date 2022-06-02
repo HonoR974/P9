@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <!-- ====================   Business-Proxy   ==================== -->
+
+    <!-- BusinessProxy -->
+    <bean id="businessProxy"
+          class="com.dummy.myerp.business.impl.BusinessProxyImpl"
+          factory-method="getInstance">
+        <constructor-arg ref="daoProxy"/>
+        <constructor-arg ref="transactionManager"/>
+    </bean>
+
+    <bean id="comptabiliteManager" class="com.dummy.myerp.business.impl.manager.ComptabiliteManagerImpl"/>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="com.dummy.myerp.business.impl.AbstractBusinessManager"/>
+        <property name="targetMethod" value="configure"/>
+        <property name="arguments">
+            <list>
+                <ref bean="businessProxy"/>
+                <ref bean="daoProxy"/>
+                <ref bean="transactionManager"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- ========== Transaction Managers ========== -->
+    <import resource="transactionContext.xml"/>
+</beans>

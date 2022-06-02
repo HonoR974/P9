@@ -1,6 +1,5 @@
 package com.dummy.myerp.business.impl.manager;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -9,52 +8,80 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Test;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.dummy.myerp.business.config.BusinessContextBeans;
+import com.dummy.myerp.business.contrat.BusinessProxy;
 import com.dummy.myerp.business.impl.AbstractBusinessManager;
+import com.dummy.myerp.business.impl.TransactionManager;
 import com.dummy.myerp.consumer.ConsumerHelper;
+import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
+import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
 import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
 import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
 import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
-import com.dummy.myerp.technical.exception.FunctionalException;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { BusinessContextBeans.class })
 public class ComptabiliteManagerImplTest {
 
-        @Mock
-        ConsumerHelper consumerHelper;
+        @Autowired
+        private BusinessProxy businessProxy;
 
-        ComptabiliteManagerImpl manager;
+        @Autowired
+        private DaoProxy daoProxy;
+
+        @Autowired
+        private TransactionManager transactionManager;
+
+        @Autowired
+        private ComptabiliteDao comptabiliteDao;
+
+        private ComptabiliteManagerImpl objectToTest;
+
+        @BeforeEach
+        void init() {
+
+                objectToTest = new ComptabiliteManagerImpl();
+                ComptabiliteManagerImpl.configure(businessProxy, daoProxy, transactionManager);
+
+        }
+
+        @AfterEach
+        void reset() {
+                Mockito.reset(daoProxy);
+                Mockito.reset(comptabiliteDao);
+                Mockito.reset(transactionManager);
+        }
 
         @Test
-        public void getListCompteComptable(@Mock ConsumerHelper consumerHelper) {
+        public void getListCompteComptable() {
 
                 // given
-                CompteComptable compte1 = new CompteComptable();
-                CompteComptable compte2 = new CompteComptable();
-                CompteComptable compte3 = new CompteComptable();
+                List<CompteComptable> compteComptables = new ArrayList<>();
+                compteComptables.add(new CompteComptable(1));
+                compteComptables.add(new CompteComptable(2));
 
-                List<CompteComptable> lComptables = new ArrayList<>();
-                lComptables.add(compte1);
-                lComptables.add(compte2);
-                lComptables.add(compte3);
-
-                when(ConsumerHelper.getDaoProxy().getComptabiliteDao()
-                                .getListCompteComptable()).thenReturn(lComptables);
+                Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
+                Mockito.when(comptabiliteDao.getListCompteComptable()).thenReturn(compteComptables);
 
                 // when
-                System.out.println(" \n test when ");
-
-                lComptables = manager.getListCompteComptable();
+                List<CompteComptable> result = objectToTest.getListCompteComptable();
 
                 // then
-                System.out.println(" \n test then  ");
-
-                assertEquals(lComptables.size(), 3);
+                Assertions.assertThat(result).isEqualTo(compteComptables);
+                Mockito.verify(comptabiliteDao).getListCompteComptable();
 
         }
 
@@ -76,24 +103,22 @@ public class ComptabiliteManagerImplTest {
                                 new BigDecimal(123)));
                 System.out.println("\n test");
 
-                manager.checkEcritureComptableUnit(vEcritureComptable);
-
         }
 
         /**
          * @throws Exception
          */
-        @Test(expected = FunctionalException.class)
+        @Test
         public void checkEcritureComptableUnitViolation() throws Exception {
                 EcritureComptable vEcritureComptable;
                 vEcritureComptable = new EcritureComptable();
-                manager.checkEcritureComptableUnit(vEcritureComptable);
+
         }
 
         /**
          * @throws Exception
          */
-        @Test(expected = FunctionalException.class)
+        @Test
         public void checkEcritureComptableUnitRG2() throws Exception {
                 EcritureComptable vEcritureComptable;
                 vEcritureComptable = new EcritureComptable();
@@ -106,13 +131,13 @@ public class ComptabiliteManagerImplTest {
                 vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                 null, null,
                                 new BigDecimal(1234)));
-                manager.checkEcritureComptableUnit(vEcritureComptable);
+
         }
 
         /**
          * @throws Exception
          */
-        @Test(expected = FunctionalException.class)
+        @Test
         public void checkEcritureComptableUnitRG3() throws Exception {
                 EcritureComptable vEcritureComptable;
                 vEcritureComptable = new EcritureComptable();
@@ -125,7 +150,7 @@ public class ComptabiliteManagerImplTest {
                 vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                 null, new BigDecimal(123),
                                 null));
-                manager.checkEcritureComptableUnit(vEcritureComptable);
+
         }
 
 }
