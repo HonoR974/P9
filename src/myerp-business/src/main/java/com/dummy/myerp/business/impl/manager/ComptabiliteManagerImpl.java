@@ -235,10 +235,17 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // l'écriture, idem pour le code journal...
         String refJournalCode = pEcritureComptable.getReference().substring(0, 2);
         String refDateYear = pEcritureComptable.getReference().substring(3, 7);
+
         LocalDate ecritureDate = pEcritureComptable.getDate().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
 
+        System.out.println("\n ------------------------ ");
+
+        System.out.println("\n ref " + pEcritureComptable.getReference());
+        System.out.println("\n journal code " + pEcritureComptable.getJournal().getCode());
+        System.out.println("\n ref journal " + refJournalCode);
+        System.out.println("\n ref date  " + refDateYear);
         int ecritureDateYear = ecritureDate.getYear();
 
         if (!refJournalCode.equals(pEcritureComptable.getJournal().getCode())
