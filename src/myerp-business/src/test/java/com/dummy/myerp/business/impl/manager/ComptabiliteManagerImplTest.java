@@ -1,4 +1,4 @@
-package com.dummy.myerp.business.impl.manager.impl;
+package com.dummy.myerp.business.impl.manager;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.util.Date;
 import com.dummy.myerp.business.config.BusinessContextBeans;
 import com.dummy.myerp.business.contrat.BusinessProxy;
 import com.dummy.myerp.business.impl.TransactionManager;
-import com.dummy.myerp.business.impl.manager.ComptabiliteManagerImpl;
+
 import com.dummy.myerp.business.util.Constant;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
@@ -20,21 +20,15 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.TransactionStatus;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -184,52 +178,66 @@ public class ComptabiliteManagerImplTest {
         }
 
         /**
+         * Verifie une ecriture comptable correcte
+         * ne doit pas retourner d'expception
+         * 
          * @throws Exception
          */
         @Test
-        public void checkEcritureComptableUnit() throws Exception {
-                EcritureComptable vEcritureComptable;
-                vEcritureComptable = new EcritureComptable();
-                vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-                vEcritureComptable.setDate(new Date());
-                vEcritureComptable.setLibelle("Libelle");
-                vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                null, new BigDecimal(123),
-                                null));
-                vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                                null, null,
-                                new BigDecimal(123)));
-                System.out.println("\n test");
+        void checkEcritureComptable_correctNewEcritureComptable_shouldNotThrowException() throws Exception {
+
+                Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
+                Mockito.when(comptabiliteDao.getEcritureComptableByRef(sampleEcritureComptable.getReference()))
+                                .thenThrow(new NotFoundException());
+
+                Assertions.assertThatCode(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                                .doesNotThrowAnyException();
 
         }
 
         /**
+         * verifie une ecritre comptable
+         * qui n'a pas de date
+         * retourne functionalException avec constraint message
+         * 
          * @throws Exception
          */
         @Test
-        public void checkEcritureComptableUnitViolation() throws Exception {
-                EcritureComptable vEcritureComptable;
-                vEcritureComptable = new EcritureComptable();
+        public void checkEcritureComptable_badConstraint_shouldFunctionalExceptionWithConstraintMessage()
+                        throws Exception {
 
+                sampleEcritureComptable.setDate(null);
+
+                Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
+                Mockito.when(comptabiliteDao.getEcritureComptableByRef(sampleEcritureComptable.getReference()))
+                                .thenThrow(new NotFoundException());
+
+                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.ECRITURE_COMPTABLE_MANAGEMENT_RULE);
         }
 
         /**
+         * verifie si l'ecriture comptable est equilibré
+         * 
          * @throws Exception
          */
         @Test
         public void checkEcritureComptableUnitRG2() throws Exception {
-                EcritureComptable vEcritureComptable;
-                vEcritureComptable = new EcritureComptable();
-                vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-                vEcritureComptable.setDate(new Date());
-                vEcritureComptable.setLibelle("Libelle");
-                vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                null, new BigDecimal(123),
-                                null));
-                vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
-                                null, null,
-                                new BigDecimal(1234)));
 
+                sampleEcritureComptable.getListLigneEcriture().clear();
+
+                sampleEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                null, new BigDecimal(123), null));
+
+                sampleEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                null, null, new BigDecimal(1234)));
+
+                System.out.println("\n sample ecriture " + sampleEcritureComptable.toString());
+
+                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.RG_COMPTA_2_VIOLATION);
         }
 
         /**
@@ -248,6 +256,8 @@ public class ComptabiliteManagerImplTest {
                 vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
                                 null, new BigDecimal(123),
                                 null));
+
+                // manager.checkEcritureComptableUnit(vEcritureComptable);
 
         }
 

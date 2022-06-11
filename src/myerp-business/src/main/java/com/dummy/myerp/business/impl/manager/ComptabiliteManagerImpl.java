@@ -35,6 +35,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * Instantiates a new Comptabilite manager.
      */
     public ComptabiliteManagerImpl() {
+        super();
     }
 
     /**
@@ -186,26 +187,22 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      *                             règles de gestion
      */
     // TODO tests à compléter
-    protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable) throws FunctionalException {
-
-        System.out.println("\n ethode");
+    protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable)
+            throws FunctionalException {
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
 
-        System.out.println("\n check ");
         if (!vViolations.isEmpty()) {
-            throw new FunctionalException("L'écriture comptable ne respecte pas "
-                    + " les règles de gestion.",
-
-                    new ConstraintViolationException(
-                            "L'écriture comptable ne respecte pas les contraintes de validation",
+            throw new FunctionalException(Constant.ECRITURE_COMPTABLE_MANAGEMENT_RULE,
+                    new ConstraintViolationException(Constant.ECRITURE_COMPTABLE_VALIDATION_CONSTRAINT,
                             vViolations));
         }
 
         // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit
         // être équilibrée
         if (!pEcritureComptable.isEquilibree()) {
-            throw new FunctionalException("L'écriture comptable n'est pas équilibrée.");
+            System.out.println("\n desequilibré ");
+            throw new FunctionalException(Constant.RG_COMPTA_2_VIOLATION);
         }
 
         // ===== RG_Compta_3 : une écriture comptable doit avoir au moins 2 lignes
@@ -227,13 +224,24 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         if (pEcritureComptable.getListLigneEcriture().size() < 2
                 || vNbrCredit < 1
                 || vNbrDebit < 1) {
-            throw new FunctionalException(
-                    "L'écriture comptable doit avoir au moins deux lignes : une ligne au débit et une ligne au crédit.");
+            throw new FunctionalException(Constant.RG_COMPTA_3_VIOLATION);
         }
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de
         // l'écriture, idem pour le code journal...
+        String refJournalCode = pEcritureComptable.getReference().substring(0, 2);
+        String refDateYear = pEcritureComptable.getReference().substring(3, 7);
+        LocalDate ecritureDate = pEcritureComptable.getDate().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        int ecritureDateYear = ecritureDate.getYear();
+
+        if (!refJournalCode.equals(pEcritureComptable.getJournal().getCode())
+                || !refDateYear.equals(Integer.toString(ecritureDateYear))) {
+            throw new FunctionalException(Constant.RG_COMPTA_5_VIOLATION);
+        }
     }
 
     /**
@@ -246,6 +254,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      *                             règles de gestion
      */
     protected void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException {
+
         // ===== RG_Compta_6 : La référence d'une écriture comptable doit être unique
         if (StringUtils.isNoneEmpty(pEcritureComptable.getReference())) {
             try {
@@ -258,8 +267,9 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 // c'est qu'il y a déjà une autre écriture avec la même référence
                 if (pEcritureComptable.getId() == null
                         || !pEcritureComptable.getId().equals(vECRef.getId())) {
-                    throw new FunctionalException("Une autre écriture comptable existe déjà avec la même référence.");
+                    throw new FunctionalException(Constant.RG_COMPTA_6_VIOLATION);
                 }
+
             } catch (NotFoundException vEx) {
                 // Dans ce cas, c'est bon, ça veut dire qu'on n'a aucune autre écriture avec la
                 // même référence.

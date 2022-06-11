@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Bean représentant une Écriture Comptable
@@ -23,10 +24,11 @@ public class EcritureComptable {
     @NotNull
     private JournalComptable journal;
     /** The Reference. */
-    @Pattern(regexp = "\\d{1,5}-\\d{4}/\\d{5}")
+    @Pattern(regexp = "^[A-Za-z]{2}-\\d{4}/\\d{5}$")
     private String reference;
     /** The Date. */
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     /** The Libelle. */
