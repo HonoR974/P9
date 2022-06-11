@@ -200,6 +200,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
         // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit
         // être équilibrée
+
+        System.out.println("\n pEcriture comptable desequilibré " + pEcritureComptable.toString());
         if (!pEcritureComptable.isEquilibree()) {
             System.out.println("\n desequilibré ");
             throw new FunctionalException(Constant.RG_COMPTA_2_VIOLATION);
