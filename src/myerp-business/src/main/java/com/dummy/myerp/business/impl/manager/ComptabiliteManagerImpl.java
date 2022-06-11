@@ -193,18 +193,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
 
         if (!vViolations.isEmpty()) {
+            System.out.println("\n violation " + vViolations.toString());
             throw new FunctionalException(Constant.ECRITURE_COMPTABLE_MANAGEMENT_RULE,
                     new ConstraintViolationException(Constant.ECRITURE_COMPTABLE_VALIDATION_CONSTRAINT,
                             vViolations));
-        }
-
-        // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit
-        // être équilibrée
-
-        System.out.println("\n pEcriture comptable desequilibré " + pEcritureComptable.toString());
-        if (!pEcritureComptable.isEquilibree()) {
-            System.out.println("\n desequilibré ");
-            throw new FunctionalException(Constant.RG_COMPTA_2_VIOLATION);
         }
 
         // ===== RG_Compta_3 : une écriture comptable doit avoir au moins 2 lignes
@@ -227,6 +219,15 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 || vNbrCredit < 1
                 || vNbrDebit < 1) {
             throw new FunctionalException(Constant.RG_COMPTA_3_VIOLATION);
+        }
+
+        // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit
+        // être équilibrée
+
+        System.out.println("\n pEcriture comptable desequilibré " + pEcritureComptable.toString());
+        if (!pEcritureComptable.isEquilibree()) {
+            System.out.println("\n desequilibré ");
+            throw new FunctionalException(Constant.RG_COMPTA_2_VIOLATION);
         }
 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence

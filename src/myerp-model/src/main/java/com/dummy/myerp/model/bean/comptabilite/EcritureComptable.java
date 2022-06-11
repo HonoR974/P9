@@ -161,8 +161,6 @@ public class EcritureComptable {
      */
     public boolean isEquilibree() {
 
-        System.out.println("\n methode isEquilibre " + getTotalDebit().equals(getTotalCredit()));
-
         return getTotalDebit().equals(getTotalCredit());
     }
 

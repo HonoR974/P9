@@ -203,7 +203,7 @@ public class ComptabiliteManagerImplTest {
          * @throws Exception
          */
         @Test
-        public void checkEcritureComptable_badConstraint_shouldFunctionalExceptionWithConstraintMessage()
+        public void checkEcritureComptable_badConstraint_shouldFunctionalExceptionConstraintMessage()
                         throws Exception {
 
                 sampleEcritureComptable.setDate(null);
@@ -218,12 +218,15 @@ public class ComptabiliteManagerImplTest {
         }
 
         /**
+         * RG 2
          * verifie si l'ecriture comptable est equilibré
+         * la somme des montants au crédit des lignes d'écriture doit être égale à la
+         * somme des montants au débit.
          * 
          * @throws Exception
          */
         @Test
-        public void checkEcritureComptableUnitRG2() throws Exception {
+        public void checkEcritureComptable_RG2_unbalanced_shouldFunctionalExceptionRG2Message() throws Exception {
 
                 sampleEcritureComptable.getListLigneEcriture().clear();
 
@@ -233,31 +236,32 @@ public class ComptabiliteManagerImplTest {
                 sampleEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
                                 null, null, new BigDecimal(1234)));
 
-                System.out.println("\n sample ecriture " + sampleEcritureComptable.toString());
-
                 Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
                                 .isInstanceOf(FunctionalException.class)
                                 .hasMessageContaining(Constant.RG_COMPTA_2_VIOLATION);
         }
 
         /**
+         * RG 3
+         * verifie si l'ecriture comptable a au moins
+         * 2 ligne d'ecriture (1 au débit, 1 au crédit)
+         * 
          * @throws Exception
          */
         @Test
-        public void checkEcritureComptableUnitRG3() throws Exception {
-                EcritureComptable vEcritureComptable;
-                vEcritureComptable = new EcritureComptable();
-                vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-                vEcritureComptable.setDate(new Date());
-                vEcritureComptable.setLibelle("Libelle");
-                vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                null, new BigDecimal(123),
-                                null));
-                vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                null, new BigDecimal(123),
-                                null));
+        public void checkEcritureComptable_RG3_() throws Exception {
 
-                // manager.checkEcritureComptableUnit(vEcritureComptable);
+                sampleEcritureComptable.getListLigneEcriture().clear();
+
+                sampleEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                                null, new BigDecimal(123), null));
+
+                sampleEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                                null, new BigDecimal(123), null));
+
+                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.RG_COMPTA_3_VIOLATION);
 
         }
 
