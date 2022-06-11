@@ -1,6 +1,13 @@
 {
-    "javadoc-tools.generateJavadoc.isUsingPwsh": false,
-    "javadoc-tools.generateJavadoc.targetFolder": "D:\\WorkSpace\\DepotGithub\\P9\\doc",
-    "javadoc-tools.generateJavadoc.workspaceSourceFolder": "D:\\WorkSpace\\DepotGithub\\P9\\doc",
-    "java.configuration.updateBuildConfiguration": "automatic"
+  "javadoc-tools.generateJavadoc.isUsingPwsh": false,
+  "javadoc-tools.generateJavadoc.targetFolder": "D:\\WorkSpace\\DepotGithub\\P9\\doc",
+  "javadoc-tools.generateJavadoc.workspaceSourceFolder": "D:\\WorkSpace\\DepotGithub\\P9\\doc",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "workbench.colorCustomizations": {
+    "terminal.foreground": "#07fff3",
+    "terminal.background": "#383737",
+    "activityBar.background": "#233212",
+    "titleBar.activeBackground": "#30461A",
+    "titleBar.activeForeground": "#F9FCF6"
+  }
 }

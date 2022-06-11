@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
 
@@ -8,8 +8,9 @@
 
 
     <!-- ========== ComptabiliteDaoImpl ========== -->
-    <bean id="ComptabiliteDaoImpl" class="com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl"
-          factory-method="getInstance">
+    <bean id="ComptabiliteDaoImpl" class="com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl" factory-method="getInstance">
+
+
         <property name="SQLgetListCompteComptable">
             <value>
                 SELECT * FROM myerp.compte_comptable
@@ -89,6 +90,36 @@
                 WHERE ecriture_id = :ecriture_id
             </value>
         </property>
+
+
+        <property name="sqlGetSequenceEcritureComptableByAnneeAndJournalCode">
+            <value>
+                SELECT * FROM myerp.sequence_ecriture_comptable
+                WHERE annee = :annee
+                AND journal_code = :journal_code
+            </value>
+        </property>
+
+        <property name="sqlUpdateSequenceEcritureComptable">
+            <value>
+                UPDATE myerp.sequence_ecriture_comptable SET
+                derniere_valeur = :derniere_valeur
+                WHERE
+                journal_code = :journal_code
+                AND annee = :annee
+            </value>
+        </property>
+        <property name="sqlUpdateSequenceEcritureComptable">
+            <value>
+                UPDATE myerp.sequence_ecriture_comptable SET
+                derniere_valeur = :derniere_valeur
+                WHERE
+                journal_code = :journal_code
+                AND annee = :annee
+            </value>
+        </property>
+
+
     </bean>
 
 </beans>

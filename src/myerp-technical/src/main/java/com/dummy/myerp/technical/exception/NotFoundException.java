@@ -1,6 +1,5 @@
 package com.dummy.myerp.technical.exception;
 
-
 /**
  * Classe des Exception de type "Donnée non trouvée"
  */
@@ -38,7 +37,7 @@ public class NotFoundException extends Exception {
      * Constructeur.
      *
      * @param pMessage -
-     * @param pCause -
+     * @param pCause   -
      */
     public NotFoundException(String pMessage, Throwable pCause) {
         super(pMessage, pCause);

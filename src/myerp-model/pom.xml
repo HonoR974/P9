@@ -55,6 +55,13 @@
         <!-- ===== Tests ===== -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
@@ -73,7 +80,6 @@
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!-- ===== JSR 303 - Bean validation ===== -->
         <!-- implementation -->
         <dependency>

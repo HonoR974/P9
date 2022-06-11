@@ -7,7 +7,6 @@ import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 import com.dummy.myerp.consumer.dao.impl.DaoProxyImpl;
 import com.dummy.myerp.consumer.dao.impl.db.dao.ComptabiliteDaoImpl;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
