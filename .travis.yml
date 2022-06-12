@@ -10,3 +10,4 @@ cache:
 before:
   - cd docker/dev
   - docker-compose up -d
+  - ant test
