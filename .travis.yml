@@ -10,3 +10,5 @@ cache:
 script:
   - cd docker/dev
   - docker-compose up -d
+  - cd ../../src
+  - mvn clean verify
