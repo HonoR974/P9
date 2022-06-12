@@ -7,7 +7,6 @@ cache:
   directories:
     - $HOME/.m2
 
-before:
+script:
   - cd docker/dev
   - docker-compose up -d
-  - ant test
