@@ -1,5 +1,10 @@
 language: java
 
+jdk:
+  - openjdk8
+
+sudo: false # faster builds
+
 services:
   - docker
 
@@ -10,5 +15,3 @@ cache:
 before:
   - cd docker/dev
   - docker-compose up -d
-
-srcipt: mvn test -B
