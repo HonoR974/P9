@@ -7,6 +7,8 @@ cache:
   directories:
     - $HOME/.m2
 
-script:
+before:
   - cd docker/dev
   - docker-compose up -d
+
+srcipt: mvn test -B
