@@ -7,8 +7,16 @@ cache:
   directories:
     - $HOME/.m2
 
+addons:
+  sonarcloud:
+    organization: "honor974"
+    token:
+      secure: "a0d8d76c58594b666ff8da401851a73ba2cd3511" # encrypted value of your token
+
 script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+
   - cd docker/dev
   - docker-compose up -d
   - cd ../../src
-  - mvn clean verify
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
