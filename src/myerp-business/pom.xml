@@ -36,6 +36,7 @@
     <!-- Properties -->
     <!-- =============================================================== -->
     <properties>
+        <sonar.projectKey>HonoR974_P9-business</sonar.projectKey>
     </properties>
 
 
