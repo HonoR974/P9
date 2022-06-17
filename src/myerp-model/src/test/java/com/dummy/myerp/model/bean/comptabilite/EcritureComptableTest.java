@@ -3,7 +3,6 @@ package com.dummy.myerp.model.bean.comptabilite;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.jupiter.api.Test;
 
 public class EcritureComptableTest {
 
@@ -24,7 +23,6 @@ public class EcritureComptableTest {
         return vRetour;
     }
 
-    @Test
     public void isEquilibree() {
         EcritureComptable vEcriture;
         vEcriture = new EcritureComptable();

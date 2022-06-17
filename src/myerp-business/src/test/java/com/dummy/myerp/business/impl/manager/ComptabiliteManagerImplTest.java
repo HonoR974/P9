@@ -7,25 +7,26 @@ import java.util.ArrayList;
 
 import java.util.Date;
 
-import com.dummy.myerp.business.config.BusinessContextBeans;
 import com.dummy.myerp.business.contrat.BusinessProxy;
 import com.dummy.myerp.business.impl.TransactionManager;
-
-import com.dummy.myerp.business.util.Constant;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
-import com.dummy.myerp.model.bean.comptabilite.*;
+import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
+import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
+import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
+import com.dummy.myerp.business.util.Constant;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -34,28 +35,27 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { BusinessContextBeans.class })
+@RunWith(MockitoJUnitRunner.class)
 public class ComptabiliteManagerImplTest {
 
-        @Autowired
+        @Mock
         private BusinessProxy businessProxy;
 
-        @Autowired
+        @Mock
         private DaoProxy daoProxy;
 
-        @Autowired
+        @Mock
         private TransactionManager transactionManager;
 
-        @Autowired
+        @Mock
         private ComptabiliteDao comptabiliteDao;
 
         private ComptabiliteManagerImpl objectToTest;
 
         private EcritureComptable sampleEcritureComptable;
 
-        @BeforeEach
-        void init() {
+        @Before
+        public void init() {
 
                 objectToTest = new ComptabiliteManagerImpl();
 
@@ -76,8 +76,8 @@ public class ComptabiliteManagerImplTest {
                                 new BigDecimal(123)));
         }
 
-        @AfterEach
-        void reset() {
+        @After
+        public void reset() {
                 Mockito.reset(daoProxy);
                 Mockito.reset(comptabiliteDao);
                 Mockito.reset(transactionManager);
@@ -141,7 +141,7 @@ public class ComptabiliteManagerImplTest {
         }
 
         @Test
-        void addReference() {
+        public void addReference() {
                 /*-_shouldcreateNewSequenceInDB_whenSequenceNotFound 
                  * shouldThrowFunctionalException_whenEcritureComptableDateIsNull
                  * shouldThrowFunctionalException_whenEcritureComptableJournalIsNull
@@ -152,7 +152,7 @@ public class ComptabiliteManagerImplTest {
         }
 
         @Test
-        void addReference_shouldcreateNewSequenceInDB_whenSequenceNotFound()
+        public void addReference_shouldcreateNewSequenceInDB_whenSequenceNotFound()
                         throws NotFoundException, FunctionalException {
                 //
                 LocalDate ecritureDate = sampleEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault())
@@ -185,7 +185,7 @@ public class ComptabiliteManagerImplTest {
          * @throws Exception
          */
         @Test
-        void checkEcritureComptable_correctNewEcritureComptable_shouldNotThrowException() throws Exception {
+        public void checkEcritureComptable_correctNewEcritureComptable_shouldNotThrowException() throws Exception {
 
                 Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
                 Mockito.when(comptabiliteDao.getEcritureComptableByRef(sampleEcritureComptable.getReference()))
@@ -270,15 +270,17 @@ public class ComptabiliteManagerImplTest {
          * RG 5
          * vérifier que l'année dans la référence correspond bien à la date de
          * l'écriture, idem pour le code journal...
+         * 
+         * @ParameterizedTest
+         * @ValueSource(strings = { "BQ-2020/00001", "AC-2019/00001" })
+         *                      public void checkEcritureComptable_RG5_(String arg1) {
+         *                      sampleEcritureComptable.setReference(arg1);
+         * 
+         *                      Assertions.assertThatThrownBy(() ->
+         *                      objectToTest.checkEcritureComptable(sampleEcritureComptable))
+         *                      .isInstanceOf(FunctionalException.class)
+         *                      .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
+         * 
+         *                      }
          */
-        @ParameterizedTest
-        @ValueSource(strings = { "BQ-2020/00001", "AC-2019/00001" })
-        public void checkEcritureComptable_RG5_(String arg1) {
-                sampleEcritureComptable.setReference(arg1);
-
-                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
-                                .isInstanceOf(FunctionalException.class)
-                                .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
-
-        }
 }
