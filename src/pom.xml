@@ -97,6 +97,9 @@
         <!-- Profile utilisé pour lancer les tests d'intégration de la couche Business -->
         <profile>
             <id>test-business</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
 
         <!-- Profile utilisé pour lancer les tests d'intégration de la couche Consumer -->
@@ -383,6 +386,38 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.20</version>
+                    <configuration>
+                        <forkCount>1</forkCount>
+                        <reuseForks>true</reuseForks>
+                        <useSystemClassLoader>false</useSystemClassLoader>
+                    </configuration>
+                </plugin>
+
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.20</version>
+                    <executions>
+                        <execution>
+                            <id>integration-tests</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <configuration>
+                                <additionalClasspathElements>
+                                    <additionalClasspathElement>${project.build.directory}/classes</additionalClasspathElement>
+                                </additionalClasspathElements>
+                                <includes>
+                                    <include>**/*IntegrationTest.java</include>
+                                </includes>
+                                <forkCount>1</forkCount>
+                                <reuseForks>false</reuseForks>
+                                <useSystemClassLoader>false</useSystemClassLoader>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
@@ -442,6 +477,8 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+
     </build>
 
 

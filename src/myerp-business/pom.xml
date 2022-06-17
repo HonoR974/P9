@@ -31,7 +31,6 @@
         </site>
     </distributionManagement>
 
-
     <!-- =============================================================== -->
     <!-- Properties -->
     <!-- =============================================================== -->
@@ -134,12 +133,50 @@
         </dependency>
     </dependencies>
 
+    <!-- =============================================================== -->
+    <!-- Profiles -->
+    <!-- =============================================================== -->
+    <profiles>
+        <!-- Profile utilisé pour lancer les tests d'intégration de la couche Business -->
+        <profile>
+            <id>test-business</id>
+            <build>
+                <plugins>
+                    <!-- Ajout du répertoire src/test-business/java en tant que source de test du module -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>add-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>src/test/java</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                </testResources>
+            </build>
+        </profile>
+    </profiles>
 
     <!-- =============================================================== -->
     <!-- Build -->
     <!-- =============================================================== -->
     <build>
 
-
     </build>
+
+
 </project>

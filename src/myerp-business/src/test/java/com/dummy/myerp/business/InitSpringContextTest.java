@@ -18,10 +18,15 @@ public class InitSpringContextTest {
     @Autowired
     ApplicationContext applicationContext;
 
-    @Test
-    @DisplayName("Beans should be initialised")
-    void initTest() {
-        Assertions.assertThat((BusinessProxy) applicationContext.getBean("businessProxy")).isNotNull();
-        Assertions.assertThat((TransactionManager) applicationContext.getBean("transactionManager")).isNotNull();
-    }
+    /*
+     * @Test
+     * 
+     * @DisplayName("Beans should be initialised")
+     * void initTest() {
+     * Assertions.assertThat((BusinessProxy)
+     * applicationContext.getBean("businessProxy")).isNotNull();
+     * Assertions.assertThat((TransactionManager)
+     * applicationContext.getBean("transactionManager")).isNotNull();
+     * }
+     */
 }
