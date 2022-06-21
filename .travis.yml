@@ -13,8 +13,7 @@ before_script:
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   -  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=HonoR974_P9
-  - mvn clean verify -P test-business
+  - mvn clean verify -P test-consumer,test-business sonar:sonar -Dsonar.login=f40b92dc7a927178a8234e64dd63911a19728682
   - cd ../docker/dev
   - docker-compose up -d
   - cd ../../src
