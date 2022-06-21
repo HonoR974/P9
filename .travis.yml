@@ -23,5 +23,5 @@ addons:
   sonarcloud:
     organization: "honor974"
     token:
-      secure: aecf2362c158c5f7120baa41c4bc7074394b5ec3 # encrypted value of your token
+      secure: f40b92dc7a927178a8234e64dd63911a19728682 # encrypted value of your token
 
