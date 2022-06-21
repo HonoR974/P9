@@ -21,8 +21,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -263,15 +261,8 @@ public class ComptabiliteManagerImplTest {
          * l'écriture, idem pour le code journal...
          * 
          */
-        @ParameterizedTest
-        @ValueSource(strings = { "BQ-2020/00001", "AC-2019/00001" })
         @Test
-        public void checkEcritureComptable_RG5_(String arg1) {
-                sampleEcritureComptable.setReference(arg1);
-
-                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
-                                .isInstanceOf(FunctionalException.class)
-                                .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
+        public void checkEcritureComptable_RG5_() {
 
         }
 
