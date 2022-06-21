@@ -60,9 +60,10 @@
         <!-- Sonarcloud (mvn verify sonar:sonar)-->
         <sonar.organization>honor974</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.projectKey>HonoR974_P9</sonar.projectKey>
-        <sonar.login>c9aaa63a964912f2812c96a2734c4ea38086dce5</sonar.login>
-
+        <sonar.language>java</sonar.language>
+        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <sonar.login>aecf2362c158c5f7120baa41c4bc7074394b5ec3</sonar.login>
     </properties>
 
 
