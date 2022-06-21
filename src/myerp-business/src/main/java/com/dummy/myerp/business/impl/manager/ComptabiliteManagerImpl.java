@@ -84,8 +84,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     public synchronized void addReference(EcritureComptable pEcritureComptable)
             throws FunctionalException, NotFoundException {
 
-        System.out.println("\n ecriture " + pEcritureComptable.toString());
-
         // verifie la date et le journal
         if (pEcritureComptable.getDate() == null) {
             throw new FunctionalException(Constant.ECRITURE_COMPTABLE_DATE_NULL_FOR_ADD_REFERENCE);
@@ -97,7 +95,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // Remonter depuis la persitance la dernière valeur de la séquence du journal
         // pour l'année de l'écriture
         LocalDate ecritureDate = pEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        System.out.println("\n année du journal " + ecritureDate.toString());
 
         // 2
         // verifie si la sequence existe
@@ -134,24 +131,18 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // numero de sequence
         StringBuilder formattedSequenceNumberBuilder = new StringBuilder(
                 sequenceEcritureComptable.getDerniereValeur().toString());
-        System.out.println("\n while ");
 
         while (formattedSequenceNumberBuilder.length() < 5) {
             // insert ( index , contenu )
             formattedSequenceNumberBuilder.insert(0, "0");
-            System.out.println("\n fomatedSequence " + formattedSequenceNumberBuilder.toString());
         }
 
         String formattedSequenceNumber = formattedSequenceNumberBuilder.toString();
-
-        System.out.println("\n format string " + formattedSequenceNumber);
 
         //
         String reference = sequenceEcritureComptable.getJournal().getCode() + "-"
                 + sequenceEcritureComptable.getAnnee().toString() + "/" + formattedSequenceNumber;
         pEcritureComptable.setReference(reference);
-
-        System.out.println("\n reference ecriture comptable " + reference);
 
         // 4. Enregistrer (insert/update) la valeur de la séquence en persitance
         // (table sequence_ecriture_comptable)
@@ -193,7 +184,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         Set<ConstraintViolation<EcritureComptable>> vViolations = getConstraintValidator().validate(pEcritureComptable);
 
         if (!vViolations.isEmpty()) {
-            System.out.println("\n violation " + vViolations.toString());
             throw new FunctionalException(Constant.ECRITURE_COMPTABLE_MANAGEMENT_RULE,
                     new ConstraintViolationException(Constant.ECRITURE_COMPTABLE_VALIDATION_CONSTRAINT,
                             vViolations));
@@ -224,7 +214,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // ===== RG_Compta_2 : Pour qu'une écriture comptable soit valide, elle doit
         // être équilibrée
 
-        System.out.println("\n pEcriture comptable desequilibré " + pEcritureComptable.toString());
         if (!pEcritureComptable.isEquilibree()) {
             System.out.println("\n desequilibré ");
             throw new FunctionalException(Constant.RG_COMPTA_2_VIOLATION);
@@ -240,12 +229,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
 
-        System.out.println("\n ------------------------ ");
-
-        System.out.println("\n ref " + pEcritureComptable.getReference());
-        System.out.println("\n journal code " + pEcritureComptable.getJournal().getCode());
-        System.out.println("\n ref journal " + refJournalCode);
-        System.out.println("\n ref date  " + refDateYear);
         int ecritureDateYear = ecritureDate.getYear();
 
         if (!refJournalCode.equals(pEcritureComptable.getJournal().getCode())

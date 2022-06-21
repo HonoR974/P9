@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
-import java.util.Date;
-
 import com.dummy.myerp.business.contrat.BusinessProxy;
 import com.dummy.myerp.business.impl.TransactionManager;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
@@ -23,13 +21,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -158,10 +155,7 @@ public class ComptabiliteManagerImplTest {
                 LocalDate ecritureDate = sampleEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault())
                                 .toLocalDate();
 
-                System.out.println("\n ecritudeDate" + ecritureDate.getChronology());
-
                 String expectedRef = sampleEcritureComptable.getReference();
-                System.out.println("\n exceptected ref " + expectedRef);
 
                 sampleEcritureComptable.setReference("");
 
@@ -169,11 +163,8 @@ public class ComptabiliteManagerImplTest {
                 Mockito.when(comptabiliteDao.getSequenceByYearAndJournalCode(ecritureDate.getYear(),
                                 sampleEcritureComptable.getJournal().getCode())).thenThrow(NotFoundException.class);
 
-                //
-                System.out.println("\n sample ecriture " + sampleEcritureComptable.toString());
                 objectToTest.addReference(sampleEcritureComptable);
 
-                //
                 Mockito.verify(comptabiliteDao).insertNewSequence(Mockito.any(SequenceEcritureComptable.class));
                 Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
         }
@@ -271,16 +262,17 @@ public class ComptabiliteManagerImplTest {
          * vérifier que l'année dans la référence correspond bien à la date de
          * l'écriture, idem pour le code journal...
          * 
-         * @ParameterizedTest
-         * @ValueSource(strings = { "BQ-2020/00001", "AC-2019/00001" })
-         *                      public void checkEcritureComptable_RG5_(String arg1) {
-         *                      sampleEcritureComptable.setReference(arg1);
-         * 
-         *                      Assertions.assertThatThrownBy(() ->
-         *                      objectToTest.checkEcritureComptable(sampleEcritureComptable))
-         *                      .isInstanceOf(FunctionalException.class)
-         *                      .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
-         * 
-         *                      }
          */
+        @ParameterizedTest
+        @ValueSource(strings = { "BQ-2020/00001", "AC-2019/00001" })
+        @Test
+        public void checkEcritureComptable_RG5_(String arg1) {
+                sampleEcritureComptable.setReference(arg1);
+
+                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
+
+        }
+
 }
