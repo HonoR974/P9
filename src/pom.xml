@@ -57,13 +57,7 @@
         <spring.version>5.3.20</spring.version>
         <junit.version>5.6.0</junit.version>
 
-        <!-- Sonarcloud (mvn verify sonar:sonar)-->
-        <sonar.organization>honor974</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.language>java</sonar.language>
-        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
-        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-        <sonar.login>f40b92dc7a927178a8234e64dd63911a19728682</sonar.login>
+
     </properties>
 
 
@@ -457,7 +451,7 @@
                     <version>1.10</version>
                 </plugin>
 
-                <!-- Sonarcloud + jacoco -->
+                <!--  jacoco -->
 
                 <plugin>
                     <groupId>org.jacoco</groupId>

@@ -84,6 +84,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     public synchronized void addReference(EcritureComptable pEcritureComptable)
             throws FunctionalException, NotFoundException {
 
+        System.out.println("\n pEcritureComptable " + pEcritureComptable.toString());
         // verifie la date et le journal
         if (pEcritureComptable.getDate() == null) {
             throw new FunctionalException(Constant.ECRITURE_COMPTABLE_DATE_NULL_FOR_ADD_REFERENCE);
@@ -177,7 +178,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les
      *                             règles de gestion
      */
-    // TODO tests à compléter
     protected void checkEcritureComptableUnit(EcritureComptable pEcritureComptable)
             throws FunctionalException {
         // ===== Vérification des contraintes unitaires sur les attributs de l'écriture
@@ -215,7 +215,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // être équilibrée
 
         if (!pEcritureComptable.isEquilibree()) {
-            System.out.println("\n desequilibré ");
             throw new FunctionalException(Constant.RG_COMPTA_2_VIOLATION);
         }
 

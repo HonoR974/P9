@@ -27,6 +27,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -135,22 +136,20 @@ public class ComptabiliteManagerImplTest {
                 Mockito.verify(comptabiliteDao).getListEcritureComptable();
         }
 
-        @Test
-        public void addReference() {
-                /*-_shouldcreateNewSequenceInDB_whenSequenceNotFound 
-                 * shouldThrowFunctionalException_whenEcritureComptableDateIsNull
-                 * shouldThrowFunctionalException_whenEcritureComptableJournalIsNull
-                 * 
-                 * shouldcreateNewSequenceInDBAndConstructRef_whenSequenceNotFound
-                 * shouldThrowFunctionalException_whenEcritureComptableJournalCodeIsNull
-                 */
-        }
+        /*-_shouldcreateNewSequenceInDB_whenSequenceNotFound 
+         * shouldThrowFunctionalException_whenEcritureComptableDateIsNull
+         * shouldThrowFunctionalException_whenEcritureComptableJournalIsNull
+         * 
+         * shouldcreateNewSequenceInDBAndConstructRef_whenSequenceNotFound
+         * shouldThrowFunctionalException_whenEcritureComptableJournalCodeIsNull
+         */
 
         @Test
         public void addReference_shouldcreateNewSequenceInDB_whenSequenceNotFound()
                         throws NotFoundException, FunctionalException {
                 //
-                LocalDate ecritureDate = sampleEcritureComptable.getDate().toInstant().atZone(ZoneId.systemDefault())
+                LocalDate ecritureDate = sampleEcritureComptable.getDate()
+                                .toInstant().atZone(ZoneId.systemDefault())
                                 .toLocalDate();
 
                 String expectedRef = sampleEcritureComptable.getReference();
@@ -164,6 +163,54 @@ public class ComptabiliteManagerImplTest {
                 objectToTest.addReference(sampleEcritureComptable);
 
                 Mockito.verify(comptabiliteDao).insertNewSequence(Mockito.any(SequenceEcritureComptable.class));
+                Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
+        }
+
+        @Test
+        public void addReference_noDate_shouldFunctionalException() throws NotFoundException, FunctionalException {
+
+                sampleEcritureComptable.setDate(null);
+
+                Assertions.assertThatThrownBy(() -> objectToTest.addReference(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.ECRITURE_COMPTABLE_DATE_NULL_FOR_ADD_REFERENCE);
+
+        }
+
+        @Test
+        public void addReference_noJournal_shouldFunctionalException() throws NotFoundException, FunctionalException {
+                sampleEcritureComptable.setJournal(null);
+
+                Assertions.assertThatThrownBy(() -> objectToTest.addReference(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.ECRITURE_COMPTABLE_JOURNAL_NULL_FOR_ADD_REFERENCE);
+
+        }
+
+        @Test
+        public void addReference_shouldUpdateSequenceDerniereValeurInDBAndConstructRef_whenSequenceFound()
+                        throws NotFoundException, FunctionalException {
+
+                String expectedRef = "AC-2020/00006";
+
+                SequenceEcritureComptable sequenceEcritureComptableFound = new SequenceEcritureComptable(2020,
+                                new JournalComptable("AC", "Achat"),
+                                5);
+
+                LocalDate ecritureDate = sampleEcritureComptable.getDate().toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate();
+
+                sampleEcritureComptable.setReference("");
+
+                Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
+                Mockito.when(comptabiliteDao.getSequenceByYearAndJournalCode(ecritureDate.getYear(),
+                                sampleEcritureComptable.getJournal().getCode()))
+                                .thenReturn(sequenceEcritureComptableFound);
+
+                objectToTest.addReference(sampleEcritureComptable);
+
+                Mockito.verify(comptabiliteDao).updateSequenceEcritureComptable(sequenceEcritureComptableFound);
                 Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
         }
 
@@ -263,6 +310,13 @@ public class ComptabiliteManagerImplTest {
          */
         @Test
         public void checkEcritureComptable_RG5_() {
+
+                /*
+                 * Assertions.assertThatThrownBy(() ->
+                 * objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                 * .isInstanceOf(FunctionalException.class)
+                 * .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
+                 */
 
         }
 
