@@ -337,7 +337,7 @@ public class ComptabiliteManagerImplTest {
                  * .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
                  */
 
-                //
+                // travis comment
 
                 //
 
