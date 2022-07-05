@@ -136,11 +136,7 @@ public class ComptabiliteManagerImplTest {
                 Mockito.verify(comptabiliteDao).getListEcritureComptable();
         }
 
-        /*-_shouldcreateNewSequenceInDB_whenSequenceNotFound 
-         * shouldThrowFunctionalException_whenEcritureComptableDateIsNull
-         * shouldThrowFunctionalException_whenEcritureComptableJournalIsNull
-         * 
-         * shouldcreateNewSequenceInDBAndConstructRef_whenSequenceNotFound
+        /*-_
          * shouldThrowFunctionalException_whenEcritureComptableJournalCodeIsNull
          */
 
@@ -212,6 +208,29 @@ public class ComptabiliteManagerImplTest {
 
                 Mockito.verify(comptabiliteDao).updateSequenceEcritureComptable(sequenceEcritureComptableFound);
                 Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
+        }
+
+        @Test
+        public void addReference_shouldcreateNewSequenceInDBAndConstructRef_whenSequenceNotFound()
+                        throws NotFoundException, FunctionalException {
+
+                LocalDate ecritureDate = sampleEcritureComptable.getDate()
+                                .toInstant().atZone(ZoneId.systemDefault())
+                                .toLocalDate();
+
+                String expectedRef = sampleEcritureComptable.getReference();
+
+                sampleEcritureComptable.setReference("");
+
+                Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
+                Mockito.when(comptabiliteDao.getSequenceByYearAndJournalCode(ecritureDate.getYear(),
+                                sampleEcritureComptable.getJournal().getCode())).thenThrow(NotFoundException.class);
+
+                objectToTest.addReference(sampleEcritureComptable);
+
+                Mockito.verify(comptabiliteDao).insertNewSequence(Mockito.any(SequenceEcritureComptable.class));
+                Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
+
         }
 
         /**
