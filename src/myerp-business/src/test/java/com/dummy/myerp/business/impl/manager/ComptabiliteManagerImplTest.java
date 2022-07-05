@@ -324,22 +324,19 @@ public class ComptabiliteManagerImplTest {
         /**
          * RG 5
          * vérifier que l'année dans la référence correspond bien à la date de
-         * l'écriture, idem pour le code journal...
-         * 
+         * l'écriture,
+         * si la reference de l'ecriture cmptable n'est pas egale
+         * a la reference du journal
          */
         @Test
-        public void checkEcritureComptable_RG5_() {
+        public void checkEcritureComptable_RG5_() throws Exception {
 
-                /*
-                 * Assertions.assertThatThrownBy(() ->
-                 * objectToTest.checkEcritureComptable(sampleEcritureComptable))
-                 * .isInstanceOf(FunctionalException.class)
-                 * .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
-                 */
+                sampleEcritureComptable.setReference("AC-2021/00001");
+                sampleEcritureComptable.setDate(new GregorianCalendar(2020, Calendar.FEBRUARY, 11).getTime());
 
-                // travis comment
-
-                //
+                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
 
         }
 
