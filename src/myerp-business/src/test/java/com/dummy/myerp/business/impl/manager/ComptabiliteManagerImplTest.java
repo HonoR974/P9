@@ -329,7 +329,7 @@ public class ComptabiliteManagerImplTest {
          * a la reference du journal
          */
         @Test
-        public void checkEcritureComptable_RG5_() throws Exception {
+        public void checkEcritureComptable_RG5_badYear_shouldFunctionalExceptionRG5Message() throws Exception {
 
                 sampleEcritureComptable.setReference("AC-2021/00001");
                 sampleEcritureComptable.setDate(new GregorianCalendar(2020, Calendar.FEBRUARY, 11).getTime());
@@ -338,6 +338,35 @@ public class ComptabiliteManagerImplTest {
                                 .isInstanceOf(FunctionalException.class)
                                 .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
 
+        }
+
+        @Test
+        public void checkEcritureComptable_RG5_badReference_shouldFunctionalExceptionRG5Message()
+                        throws FunctionalException {
+                sampleEcritureComptable.setReference("AC-2021/00001");
+                sampleEcritureComptable.setJournal(new JournalComptable("AB", "Achat"));
+
+                Assertions.assertThatThrownBy(() -> objectToTest.checkEcritureComptable(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.RG_COMPTA_5_VIOLATION);
+
+        }
+
+        /**
+         * RG 6
+         * Vérifie que l'Ecriture comptable respecte les règles de gestion liées au
+         * contexte
+         * (unicité de la référence, année comptable non cloturé...)
+         * La référence d'une écriture comptable doit être unique
+         * 
+         * @throws FunctionalException
+         */
+        @Test
+        public void checkEcritureComptableContext_RG6_() throws FunctionalException {
+                EcritureComptable vEcritureComptable = new EcritureComptable();
+                vEcritureComptable.setReference("BQ-2016/00005");
+
+                objectToTest.checkEcritureComptableContext(vEcritureComptable);
         }
 
 }

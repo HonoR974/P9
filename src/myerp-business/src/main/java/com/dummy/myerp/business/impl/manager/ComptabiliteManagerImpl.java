@@ -224,16 +224,12 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         String refJournalCode = pEcritureComptable.getReference().substring(0, 2);
         String refDateYear = pEcritureComptable.getReference().substring(3, 7);
 
-        System.out.println("\n refJournalCode : " + refJournalCode);
-        System.out.println("\n refdateYear : " + refDateYear);
-
         LocalDate ecritureDate = pEcritureComptable.getDate().toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
 
         int ecritureDateYear = ecritureDate.getYear();
 
-        System.out.println("\n ecritude Date year " + ecritureDateYear);
         if (!refJournalCode.equals(pEcritureComptable.getJournal().getCode())
                 || !refDateYear.equals(Integer.toString(ecritureDateYear))) {
             throw new FunctionalException(Constant.RG_COMPTA_5_VIOLATION);
