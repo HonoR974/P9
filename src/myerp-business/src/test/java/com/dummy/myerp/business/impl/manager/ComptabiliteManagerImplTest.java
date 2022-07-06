@@ -360,13 +360,27 @@ public class ComptabiliteManagerImplTest {
          * La référence d'une écriture comptable doit être unique
          * 
          * @throws FunctionalException
+         * @throws NotFoundException
+         * 
+         * @Test
+         *       public void checkEcritureComptableContext_RG6_() throws
+         *       FunctionalException, NotFoundException {
+         * 
+         *       EcritureComptable ecritureComptable = new EcritureComptable();
+         *       ecritureComptable.setReference("AC-2020/00001");
+         * 
+         *       sampleEcritureComptable.setReference("BQ-2016/00005");
+         * 
+         *       Mockito.when(daoProxy.getComptabiliteDao()
+         *       .getEcritureComptableByRef(sampleEcritureComptable.getReference()))
+         *       .thenReturn(ecritureComptable);
+         * 
+         *       Assertions.assertThatThrownBy(() ->
+         *       objectToTest.checkEcritureComptableContext(sampleEcritureComptable))
+         *       .isInstanceOf(FunctionalException.class)
+         *       .hasMessageContaining(Constant.RG_COMPTA_6_VIOLATION);
+         * 
+         *       }
          */
-        @Test
-        public void checkEcritureComptableContext_RG6_() throws FunctionalException {
-                EcritureComptable vEcritureComptable = new EcritureComptable();
-                vEcritureComptable.setReference("BQ-2016/00005");
-
-                objectToTest.checkEcritureComptableContext(vEcritureComptable);
-        }
 
 }

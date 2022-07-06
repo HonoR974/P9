@@ -11,9 +11,7 @@ before_script:
   - cd ./src
 
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-   - mvn clean verify -P,test-business
+  - mvn clean verify -P test-business
   - cd ../docker/dev
   - docker-compose up -d
   - cd ../../src
-

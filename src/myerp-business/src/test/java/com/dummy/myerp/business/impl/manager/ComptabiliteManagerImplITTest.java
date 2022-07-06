@@ -1,4 +1,4 @@
-package com.dummy.myerp.business.testbusiness;
+package com.dummy.myerp.business.impl.manager;
 
 import static org.junit.Assert.assertTrue;
 
@@ -26,11 +26,9 @@ import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/com/dummy/myerp/business/testbusiness/testContext.xml" })
-@WebAppConfiguration
-public class ComptabiliteManagerImplIT  {
+public class ComptabiliteManagerImplITTest {
 
         private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
-      
 
         @Test
         public void addReference() throws NotFoundException {
