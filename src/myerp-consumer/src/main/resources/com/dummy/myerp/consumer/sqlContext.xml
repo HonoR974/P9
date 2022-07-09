@@ -91,7 +91,7 @@
             </value>
         </property>
 
-
+        <!-- 
         <property name="sqlGetSequenceEcritureComptableByAnneeAndJournalCode">
             <value>
                 SELECT * FROM myerp.sequence_ecriture_comptable
@@ -99,7 +99,7 @@
                 AND journal_code = :journal_code
             </value>
         </property>
-
+-->
         <property name="sqlUpdateSequenceEcritureComptable">
             <value>
                 UPDATE myerp.sequence_ecriture_comptable SET

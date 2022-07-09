@@ -8,9 +8,5 @@
 
     <import resource="classpath:com/dummy/myerp/business/transactionContext.xml"/>
 
-    <!-- lui qui merde -->
     <import resource="classpath:com/dummy/myerp/consumer/applicationContext.xml"/>
-
-
-
 </beans>
