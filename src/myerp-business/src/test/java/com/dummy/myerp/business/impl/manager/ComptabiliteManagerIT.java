@@ -25,19 +25,15 @@ import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/com/dummy/myerp/business/testbusiness/testContext.xml" })
-public class ComptabiliteManagerImplITTest {
+@ContextConfiguration(locations = { "classpath:/testContext.xml" })
+public class ComptabiliteManagerIT {
 
         private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
 
         @Test
-        public void addReference() throws NotFoundException {
-
-        }
-
-        @Test
         public void getListCompteComptable() {
-                System.out.println("\n le test est lancé ");
-                assertTrue(manager.getListCompteComptable() != null);
+                System.out.println("\n size " + manager.getListCompteComptable().size());
+                assertTrue(manager.getListCompteComptable() == null);
         }
+
 }

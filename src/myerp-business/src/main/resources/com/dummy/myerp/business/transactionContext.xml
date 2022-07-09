@@ -4,7 +4,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Transaction Manager -->
-    <bean id="transactionManager" class="com.dummy.myerp.business.impl.TransactionManager" factory-method="getInstance">
+    <bean id="TransactionManager" class="com.dummy.myerp.business.impl.TransactionManager" factory-method="getInstance">
         <constructor-arg ref="txManagerMYERP"/>
     </bean>
 
