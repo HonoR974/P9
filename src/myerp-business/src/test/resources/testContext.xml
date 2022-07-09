@@ -8,13 +8,8 @@
 
     <import resource="classpath:com/dummy/myerp/business/transactionContext.xml"/>
 
+    <!-- lui qui merde -->
     <import resource="classpath:com/dummy/myerp/consumer/applicationContext.xml"/>
-
-
-    <!-- DaoProxy -->
-    <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
-        <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
-    </bean>
 
 
 

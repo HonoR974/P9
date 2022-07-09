@@ -43,7 +43,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     // ==================== Getters/Setters ====================
     @Override
     public List<CompteComptable> getListCompteComptable() {
-        System.out.println("\n methode comptabiliteImpl ");
         return getDaoProxy().getComptabiliteDao().getListCompteComptable();
     }
 
@@ -84,7 +83,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     public synchronized void addReference(EcritureComptable pEcritureComptable)
             throws FunctionalException, NotFoundException {
 
-        System.out.println("\n pEcritureComptable " + pEcritureComptable.toString());
         // verifie la date et le journal
         if (pEcritureComptable.getDate() == null) {
             throw new FunctionalException(Constant.ECRITURE_COMPTABLE_DATE_NULL_FOR_ADD_REFERENCE);
@@ -250,7 +248,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // ===== RG_Compta_6 : La référence d'une écriture comptable doit être unique
         if (StringUtils.isNoneEmpty(pEcritureComptable.getReference())) {
             try {
-                System.out.println("\n debut methode RG 6 ");
                 // Recherche d'une écriture ayant la même référence
                 EcritureComptable vECRef = getDaoProxy().getComptabiliteDao()
                         .getEcritureComptableByRef(
