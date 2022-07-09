@@ -43,6 +43,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     // ==================== Getters/Setters ====================
     @Override
     public List<CompteComptable> getListCompteComptable() {
+        System.out.println("\n methode comptabiliteImpl ");
         return getDaoProxy().getComptabiliteDao().getListCompteComptable();
     }
 

@@ -178,10 +178,7 @@
                     <testResource>
                         <directory>src/test/resources</directory>
                     </testResource>
-                    <!-- Test d'intégration -->
-                    <testResource>
-                        <directory>src/test-business/resources</directory>
-                    </testResource>
+
                 </testResources>
             </build>
         </profile>
