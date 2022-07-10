@@ -381,21 +381,27 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         return vBean;
     }
 
-    @Override
-    public void updateSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable) {
-
-        // bdd
-        NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
-        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
-
-        // params
-        vSqlParams.addValue(ANNEE_FIELD, sequenceEcritureComptable.getAnnee());
-        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getJournal().getCode());
-        vSqlParams.addValue(DERNIERE_VALEUR_FIELD, sequenceEcritureComptable.getDerniereValeur());
-
-        vJdbcTemplate.update(sqlUpdateSequenceEcritureComptable, vSqlParams);
-    }
-
+    /*
+     * @Override
+     * public void updateSequenceEcritureComptable(SequenceEcritureComptable
+     * sequenceEcritureComptable) {
+     * 
+     * // bdd
+     * NamedParameterJdbcTemplate vJdbcTemplate = new
+     * NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
+     * MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+     * 
+     * // params
+     * vSqlParams.addValue(ANNEE_FIELD, sequenceEcritureComptable.getAnnee());
+     * vSqlParams.addValue(JOURNAL_CODE_FIELD,
+     * sequenceEcritureComptable.getJournal().getCode());
+     * vSqlParams.addValue(DERNIERE_VALEUR_FIELD,
+     * sequenceEcritureComptable.getDerniereValeur());
+     * 
+     * vJdbcTemplate.update(sqlUpdateSequenceEcritureComptable, vSqlParams);
+     * }
+     * 
+     */
     @Override
     public void insertNewSequence(SequenceEcritureComptable sequenceEcritureComptable) {
 
