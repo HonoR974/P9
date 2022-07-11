@@ -158,7 +158,8 @@ public class ComptabiliteManagerImplTest {
 
                 objectToTest.addReference(sampleEcritureComptable);
 
-                Mockito.verify(comptabiliteDao).insertNewSequence(Mockito.any(SequenceEcritureComptable.class));
+                Mockito.verify(comptabiliteDao)
+                                .insertSequenceEcritureComptable(Mockito.any(SequenceEcritureComptable.class));
                 Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
         }
 
@@ -189,9 +190,7 @@ public class ComptabiliteManagerImplTest {
 
                 String expectedRef = "AC-2020/00006";
 
-                SequenceEcritureComptable sequenceEcritureComptableFound = new SequenceEcritureComptable(2020,
-                                new JournalComptable("AC", "Achat"),
-                                5);
+                SequenceEcritureComptable sequenceEcritureComptableFound = new SequenceEcritureComptable(2020, 5, "AC");
 
                 LocalDate ecritureDate = sampleEcritureComptable.getDate().toInstant()
                                 .atZone(ZoneId.systemDefault())
@@ -228,7 +227,8 @@ public class ComptabiliteManagerImplTest {
 
                 objectToTest.addReference(sampleEcritureComptable);
 
-                Mockito.verify(comptabiliteDao).insertNewSequence(Mockito.any(SequenceEcritureComptable.class));
+                Mockito.verify(comptabiliteDao)
+                                .insertSequenceEcritureComptable(Mockito.any(SequenceEcritureComptable.class));
                 Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
 
         }

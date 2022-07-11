@@ -393,14 +393,14 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
         // params
         vSqlParams.addValue(ANNEE_FIELD, sequenceEcritureComptable.getAnnee());
-        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getJournal().getCode());
+        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getCode());
         vSqlParams.addValue(DERNIERE_VALEUR_FIELD, sequenceEcritureComptable.getDerniereValeur());
 
         vJdbcTemplate.update(sqlUpdateSequenceEcritureComptable, vSqlParams);
     }
 
     @Override
-    public void insertNewSequence(SequenceEcritureComptable sequenceEcritureComptable) {
+    public void insertSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable) {
 
         //
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
@@ -408,7 +408,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
         //
         vSqlParams.addValue(ANNEE_FIELD, sequenceEcritureComptable.getAnnee());
-        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getJournal().getCode());
+        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getCode());
         vSqlParams.addValue(DERNIERE_VALEUR_FIELD, sequenceEcritureComptable.getDerniereValeur());
 
         //

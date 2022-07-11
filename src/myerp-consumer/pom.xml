@@ -98,12 +98,12 @@
 
 
     <profiles>
-        <!-- Profile utilisé pour lancer les tests d'intégration de la couche Consumer -->
+        <!-- Profile utilisé pour lancer les tests de la couche Consumer -->
         <profile>
             <id>test-consumer</id>
             <build>
                 <plugins>
-                    <!-- Ajout du répertoire src/test-consumer/java en tant que source de test du module -->
+                    <!-- Ajout du répertoire src/test/java en tant que source de test du module -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
@@ -116,7 +116,7 @@
                                 </goals>
                                 <configuration>
                                     <sources>
-                                        <source>src/test-consumer/java</source>
+                                        <source>src/test/java/com/dummy/myerp/testconsumer</source>
                                     </sources>
                                 </configuration>
                             </execution>
@@ -146,7 +146,7 @@
                 </plugins>
                 <testResources>
                     <testResource>
-                        <directory>src/test-consumer/resources</directory>
+                        <directory>src/test/resources</directory>
                     </testResource>
                 </testResources>
             </build>

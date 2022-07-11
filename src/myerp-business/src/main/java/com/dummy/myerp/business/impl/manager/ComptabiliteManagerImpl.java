@@ -114,8 +114,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         } catch (NotFoundException e) {
 
             // new sequence
-            sequenceEcritureComptable = new SequenceEcritureComptable(ecritureDate.getYear(),
-                    pEcritureComptable.getJournal(), 0);
+            sequenceEcritureComptable = new SequenceEcritureComptable(ecritureDate.getYear(), 0,
+                    pEcritureComptable.getJournal().getCode());
             isSequenceAlreadyExist = false;
         }
 
@@ -139,7 +139,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         String formattedSequenceNumber = formattedSequenceNumberBuilder.toString();
 
         //
-        String reference = sequenceEcritureComptable.getJournal().getCode() + "-"
+        String reference = sequenceEcritureComptable.getCode() + "-"
                 + sequenceEcritureComptable.getAnnee().toString() + "/" + formattedSequenceNumber;
         pEcritureComptable.setReference(reference);
 
@@ -150,7 +150,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
             getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sequenceEcritureComptable);
         } else {
-            getDaoProxy().getComptabiliteDao().insertNewSequence(sequenceEcritureComptable);
+            getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(sequenceEcritureComptable);
         }
 
         pEcritureComptable.setReference(reference);
