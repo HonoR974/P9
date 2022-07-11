@@ -1,4 +1,4 @@
-package com.dummy.myerp.business.impl.manager;
+package com.dummy.myerp.business.testIntegration;
 
 import static org.junit.Assert.assertTrue;
 
@@ -8,10 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/testContext.xml" })
+@ContextConfiguration(locations = { "classpath:/bootstrapContext.xml" })
 public class ComptabiliteManagerImplITTest extends BusinessTestCase {
-
-        private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
 
         @Test
         public void getListCompteComptable() {

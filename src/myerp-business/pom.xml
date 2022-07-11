@@ -129,6 +129,7 @@
     <!-- =============================================================== -->
     <profiles>
 
+        <!-- Test Unitaire -->
         <profile>
             <id>test-business</id>
             <build>
@@ -146,7 +147,7 @@
                                 </goals>
                                 <configuration>
                                     <sources>
-                                        <source>src/test-business/java</source>
+                                        <source>src/test/java/com/dummy/myerp/business/testUnitaire</source>
                                     </sources>
                                 </configuration>
                             </execution>
@@ -172,13 +173,69 @@
                             </execution>
                         </executions>
                     </plugin>
+
                 </plugins>
+
                 <testResources>
                     <!-- Test unitaire -->
                     <testResource>
                         <directory>src/test/resources</directory>
                     </testResource>
 
+                </testResources>
+            </build>
+        </profile>
+
+        <!-- Test integration  -->
+        <profile>
+            <id>test-business-unitaire</id>
+            <build>
+                <plugins>
+                    <!-- Profile utilisé pour lancer les tests unitaires de la couche Business -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>add-test-source</id>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>add-test-source</goal>
+                                </goals>
+                                <configuration>
+                                    <sources>
+                                        <source>src/test/java/com/dummy/myerp/business/testIntegration</source>
+                                    </sources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Jacoco coerage-->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
                 </testResources>
             </build>
         </profile>
