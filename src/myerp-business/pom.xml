@@ -132,6 +132,9 @@
         <!-- Test Unitaire -->
         <profile>
             <id>test-business</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <!-- Ajout du répertoire src/test-business/java en tant que source de test du module -->
