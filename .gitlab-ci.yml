@@ -3,10 +3,6 @@ variables:
   POSTGRES_USER: usr_myerp
   POSTGRES_PASSWORD: myerp
 
-cache:
-  paths:
-    - /root/.m2/repository
-
 stages:
   - build
   - test
