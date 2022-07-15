@@ -19,7 +19,7 @@ public final class SpringRegistry {
     private static final SpringRegistry INSTANCE = new SpringRegistry();
 
     /** Nom des fichiers de contexte de l'application */
-    private static final String CONTEXT_APPLI_LOCATION = "classpath:/bootstrapContext.xml";
+    private static final String CONTEXT_APPLI_LOCATION = "classpath:bootstrapContext.xml";
 
     /** Le context spring de l'application */
     private ApplicationContext contextAppli;

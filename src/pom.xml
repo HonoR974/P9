@@ -43,9 +43,7 @@
     <!-- =============================================================== -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>1.8</java.version>
         <maven.build.timestamp.format>dd/MM/yyyy</maven.build.timestamp.format>
         <buildTime>${maven.build.timestamp}</buildTime>
 
@@ -369,34 +367,23 @@
                         <useSystemClassLoader>false</useSystemClassLoader>
                     </configuration>
                 </plugin>
-
-
+                <!-- ===== Test / Reporting ===== -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.20</version>
-                    <executions>
-                        <execution>
-                            <id>integration-tests</id>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                            <configuration>
-                                <additionalClasspathElements>
-                                    <additionalClasspathElement>${project.build.directory}/classes</additionalClasspathElement>
-                                </additionalClasspathElements>
-                                <includes>
-                                    <include>**/*IntegrationTest.java</include>
-                                </includes>
-                                <forkCount>1</forkCount>
-                                <reuseForks>false</reuseForks>
-                                <useSystemClassLoader>false</useSystemClassLoader>
-                            </configuration>
-                        </execution>
-                    </executions>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+
                 </plugin>
 
+                <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.17</version>
+                    <configuration>
+                        <configLocation>src/build/checkstyle.xml</configLocation>
+                    </configuration>
+                </plugin>
                 <!-- ===== Plugin d'analyse de code Checkstyle ===== -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
