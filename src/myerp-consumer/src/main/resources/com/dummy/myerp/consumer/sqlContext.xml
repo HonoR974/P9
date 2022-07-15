@@ -91,31 +91,16 @@
             </value>
         </property>
 
-
-        <property name="sqlGetSequenceEcritureComptableByAnneeAndJournalCode">
-            <value>
-                SELECT * FROM myerp.sequence_ecriture_comptable
-                WHERE annee = :annee
-                AND journal_code = :journal_code
-            </value>
-        </property>
-
         <property name="sqlUpdateSequenceEcritureComptable">
             <value>
                 UPDATE myerp.sequence_ecriture_comptable SET
-                derniere_valeur = :derniere_valeur
+                    journal_code = :journal_code,
+                    annee = :annee,
+                    derniere_valeur = :derniere_valeur
                 WHERE
-                journal_code = :journal_code
-                AND annee = :annee
-            </value>
-        </property>
-        <property name="sqlUpdateSequenceEcritureComptable">
-            <value>
-                UPDATE myerp.sequence_ecriture_comptable SET
-                derniere_valeur = :derniere_valeur
-                WHERE
-                journal_code = :journal_code
-                AND annee = :annee
+                    journal_code = :journal_code
+                AND
+                    annee = :annee
             </value>
         </property>
 

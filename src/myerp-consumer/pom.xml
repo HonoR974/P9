@@ -98,12 +98,12 @@
 
 
     <profiles>
-        <!-- Profile utilisé pour lancer les tests d'intégration de la couche Consumer -->
+        <!-- Profile utilisé pour lancer les tests de la couche Consumer -->
         <profile>
             <id>test-consumer</id>
             <build>
                 <plugins>
-                    <!-- Ajout du répertoire src/test-consumer/java en tant que source de test du module -->
+                    <!-- Ajout du répertoire src/test/java en tant que source de test du module -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
@@ -116,19 +116,37 @@
                                 </goals>
                                 <configuration>
                                     <sources>
-                                        <source>src/test-consumer/java</source>
+                                        <source>src/test/java/com/dummy/myerp/testconsumer</source>
                                     </sources>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
+
+                    <!-- Jacoco coerage-->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                 </plugins>
                 <testResources>
                     <testResource>
                         <directory>src/test/resources</directory>
-                    </testResource>
-                    <testResource>
-                        <directory>src/test-consumer/resources</directory>
                     </testResource>
                 </testResources>
             </build>

@@ -216,6 +216,9 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     }
 
     /**
+     * Insertion d'une ecriture comptable
+     * journal / ref / date / libelle
+     * 
      * @param pEcritureComptable
      */
     @Override
@@ -250,7 +253,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
     }
 
     /**
-     * Insert les lignes d'écriture de l'écriture comptable
+     * Insertion des lignes d'écriture de l'écriture comptable
      * 
      * @param pEcritureComptable l'écriture comptable
      */
@@ -390,14 +393,14 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
         // params
         vSqlParams.addValue(ANNEE_FIELD, sequenceEcritureComptable.getAnnee());
-        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getJournal().getCode());
+        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getCode());
         vSqlParams.addValue(DERNIERE_VALEUR_FIELD, sequenceEcritureComptable.getDerniereValeur());
 
         vJdbcTemplate.update(sqlUpdateSequenceEcritureComptable, vSqlParams);
     }
 
     @Override
-    public void insertNewSequence(SequenceEcritureComptable sequenceEcritureComptable) {
+    public void insertSequenceEcritureComptable(SequenceEcritureComptable sequenceEcritureComptable) {
 
         //
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
@@ -405,7 +408,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 
         //
         vSqlParams.addValue(ANNEE_FIELD, sequenceEcritureComptable.getAnnee());
-        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getJournal().getCode());
+        vSqlParams.addValue(JOURNAL_CODE_FIELD, sequenceEcritureComptable.getCode());
         vSqlParams.addValue(DERNIERE_VALEUR_FIELD, sequenceEcritureComptable.getDerniereValeur());
 
         //

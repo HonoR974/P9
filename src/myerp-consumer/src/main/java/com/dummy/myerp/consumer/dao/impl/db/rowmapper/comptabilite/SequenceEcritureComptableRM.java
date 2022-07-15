@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 /**
  * {@link RowMapper} de {@link JournalComptable}
  */
@@ -19,10 +18,10 @@ public class SequenceEcritureComptableRM implements RowMapper<SequenceEcritureCo
     @Override
     public SequenceEcritureComptable mapRow(ResultSet pRS, int pRowNum) throws SQLException {
         SequenceEcritureComptable vBean = new SequenceEcritureComptable();
-        vBean.setJournal(journalComptableDaoCache.getByCode(pRS.getString("journal_code")));
+
         vBean.setAnnee(pRS.getInt("annee"));
         vBean.setDerniereValeur(pRS.getInt("derniere_valeur"));
-
+        vBean.setCode(pRS.getString("journal_code"));
         return vBean;
     }
 }

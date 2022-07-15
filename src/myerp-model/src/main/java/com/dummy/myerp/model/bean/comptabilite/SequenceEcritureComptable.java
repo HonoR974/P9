@@ -13,8 +13,8 @@ public class SequenceEcritureComptable {
     /** La dernière valeur utilisée */
     private Integer derniereValeur;
 
-    @NotNull
-    private JournalComptable journal;
+    /** code journal Comptable */
+    private String code = null;
 
     // ==================== Constructeurs ====================
     /**
@@ -24,10 +24,21 @@ public class SequenceEcritureComptable {
 
     }
 
-    public SequenceEcritureComptable(Integer pAnnee, JournalComptable journalComptable, Integer pDerniereValeur) {
+    /**
+     * Constructeur
+     *
+     * @param pAnnee          -
+     * @param pDerniereValeur -
+     */
+    public SequenceEcritureComptable(Integer pAnnee, Integer pDerniereValeur) {
         annee = pAnnee;
-        journal = journalComptable;
         derniereValeur = pDerniereValeur;
+    }
+
+    public SequenceEcritureComptable(Integer pAnnee, Integer pDerniereValeur, String pCode) {
+        annee = pAnnee;
+        derniereValeur = pDerniereValeur;
+        code = pCode;
     }
 
     /**
@@ -59,17 +70,14 @@ public class SequenceEcritureComptable {
         derniereValeur = pDerniereValeur;
     }
 
-    public JournalComptable getJournal() {
-        return journal;
+    public String getCode() {
+        return code;
     }
 
-    public void setJournal(JournalComptable pjournal) {
-        journal = pjournal;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    /**
-     * @return String
-     */
     // ==================== Méthodes ====================
     @Override
     public String toString() {

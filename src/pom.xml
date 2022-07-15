@@ -76,25 +76,15 @@
     <!-- Profiles -->
     <!-- =============================================================== -->
     <profiles>
-        <!-- Profile utilisé par le plugin m2e d'Eclipse -->
-        <profile>
-            <id>m2e</id>
-            <activation>
-                <property>
-                    <name>m2e.version</name>
-                </property>
-            </activation>
-            <properties>
-                <maven.build.timestamp>DD/MM/YYYY</maven.build.timestamp>
-            </properties>
-        </profile>
 
         <!-- Profile utilisé pour lancer les tests d'intégration de la couche Business -->
         <profile>
             <id>test-business</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+        </profile>
+
+        <!-- Profile pour lancer uniquement les tests unitaire de la couche Business (aucun accès à la BDD requis)-->
+        <profile>
+            <id>test-business-unitaire</id>
         </profile>
 
         <!-- Profile utilisé pour lancer les tests d'intégration de la couche Consumer -->

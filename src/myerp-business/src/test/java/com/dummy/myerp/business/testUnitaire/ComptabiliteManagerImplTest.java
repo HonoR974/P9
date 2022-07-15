@@ -1,4 +1,4 @@
-package com.dummy.myerp.business.impl.manager;
+package com.dummy.myerp.business.testUnitaire;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.dummy.myerp.business.contrat.BusinessProxy;
 import com.dummy.myerp.business.impl.TransactionManager;
+import com.dummy.myerp.business.impl.manager.ComptabiliteManagerImpl;
 import com.dummy.myerp.consumer.dao.contrat.ComptabiliteDao;
 import com.dummy.myerp.consumer.dao.contrat.DaoProxy;
 import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
@@ -27,7 +28,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -158,7 +158,8 @@ public class ComptabiliteManagerImplTest {
 
                 objectToTest.addReference(sampleEcritureComptable);
 
-                Mockito.verify(comptabiliteDao).insertNewSequence(Mockito.any(SequenceEcritureComptable.class));
+                Mockito.verify(comptabiliteDao)
+                                .insertSequenceEcritureComptable(Mockito.any(SequenceEcritureComptable.class));
                 Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
         }
 
@@ -189,9 +190,7 @@ public class ComptabiliteManagerImplTest {
 
                 String expectedRef = "AC-2020/00006";
 
-                SequenceEcritureComptable sequenceEcritureComptableFound = new SequenceEcritureComptable(2020,
-                                new JournalComptable("AC", "Achat"),
-                                5);
+                SequenceEcritureComptable sequenceEcritureComptableFound = new SequenceEcritureComptable(2020, 5, "AC");
 
                 LocalDate ecritureDate = sampleEcritureComptable.getDate().toInstant()
                                 .atZone(ZoneId.systemDefault())
@@ -228,7 +227,8 @@ public class ComptabiliteManagerImplTest {
 
                 objectToTest.addReference(sampleEcritureComptable);
 
-                Mockito.verify(comptabiliteDao).insertNewSequence(Mockito.any(SequenceEcritureComptable.class));
+                Mockito.verify(comptabiliteDao)
+                                .insertSequenceEcritureComptable(Mockito.any(SequenceEcritureComptable.class));
                 Assertions.assertThat(sampleEcritureComptable.getReference()).isEqualTo(expectedRef);
 
         }
@@ -361,26 +361,24 @@ public class ComptabiliteManagerImplTest {
          * 
          * @throws FunctionalException
          * @throws NotFoundException
-         * 
-         * @Test
-         *       public void checkEcritureComptableContext_RG6_() throws
-         *       FunctionalException, NotFoundException {
-         * 
-         *       EcritureComptable ecritureComptable = new EcritureComptable();
-         *       ecritureComptable.setReference("AC-2020/00001");
-         * 
-         *       sampleEcritureComptable.setReference("BQ-2016/00005");
-         * 
-         *       Mockito.when(daoProxy.getComptabiliteDao()
-         *       .getEcritureComptableByRef(sampleEcritureComptable.getReference()))
-         *       .thenReturn(ecritureComptable);
-         * 
-         *       Assertions.assertThatThrownBy(() ->
-         *       objectToTest.checkEcritureComptableContext(sampleEcritureComptable))
-         *       .isInstanceOf(FunctionalException.class)
-         *       .hasMessageContaining(Constant.RG_COMPTA_6_VIOLATION);
-         * 
-         *       }
-         */
+         **/
+        @Test
+        public void checkEcritureComptableContext_RG6_()
+                        throws FunctionalException, NotFoundException {
 
+                EcritureComptable ecritureComptable = new EcritureComptable();
+                ecritureComptable.setReference("AC-2020/00001");
+
+                sampleEcritureComptable.setReference("BQ-2016/00005");
+
+                Mockito.when(daoProxy.getComptabiliteDao()
+                                .getEcritureComptableByRef(sampleEcritureComptable.getReference()))
+                                .thenReturn(ecritureComptable);
+
+                Assertions.assertThatThrownBy(() -> objectToTest
+                                .checkEcritureComptableContext(sampleEcritureComptable))
+                                .isInstanceOf(FunctionalException.class)
+                                .hasMessageContaining(Constant.RG_COMPTA_6_VIOLATION);
+
+        }
 }

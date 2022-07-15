@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-
 
     <!-- ====================   Consumer   ==================== -->
     <!-- AbstractDbConsumer -->
@@ -20,6 +19,10 @@
         </property>
     </bean>
 
+    <!-- DaoProxy -->
+    <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
+        <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
+    </bean>
 
     <!-- ==================== Consumer-Proxy ==================== -->
 
@@ -35,27 +38,14 @@
     </bean>
 
 
-    <!-- DaoProxy -->
-    <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
-        <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
+    <!-- Configuration de la datasource du docker -->
+    <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/db_myerp" />
+        <property name="username" value="usr_myerp" />
+        <property name="password" value="myerp" />
     </bean>
-
-
-    <!-- ==================== Databases ==================== -->
-    <bean id="dataSourceMYERP" class="com.dummy.myerp.technical.util.spring.NullFactoryBean">
-        <constructor-arg value="javax.sql.DataSource"/>
-    </bean>
-
-
-    <!-- 
-        <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:9032/db_myerp"/>
-        <property name="username" value="usr_myerp"/>
-        <property name="password" value="myerp"/>
-        </bean>
--->
 
     <!-- ========== SQL ========== -->
-    <import resource="sqlContext.xml"/>
+    <import resource="classpath:/com/dummy/myerp/consumer/sqlContext.xml"/>
 </beans>

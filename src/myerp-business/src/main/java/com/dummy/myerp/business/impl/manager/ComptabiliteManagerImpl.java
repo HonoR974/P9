@@ -83,7 +83,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     public synchronized void addReference(EcritureComptable pEcritureComptable)
             throws FunctionalException, NotFoundException {
 
-        System.out.println("\n pEcritureComptable " + pEcritureComptable.toString());
         // verifie la date et le journal
         if (pEcritureComptable.getDate() == null) {
             throw new FunctionalException(Constant.ECRITURE_COMPTABLE_DATE_NULL_FOR_ADD_REFERENCE);
@@ -115,8 +114,8 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         } catch (NotFoundException e) {
 
             // new sequence
-            sequenceEcritureComptable = new SequenceEcritureComptable(ecritureDate.getYear(),
-                    pEcritureComptable.getJournal(), 0);
+            sequenceEcritureComptable = new SequenceEcritureComptable(ecritureDate.getYear(), 0,
+                    pEcritureComptable.getJournal().getCode());
             isSequenceAlreadyExist = false;
         }
 
@@ -140,7 +139,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         String formattedSequenceNumber = formattedSequenceNumberBuilder.toString();
 
         //
-        String reference = sequenceEcritureComptable.getJournal().getCode() + "-"
+        String reference = sequenceEcritureComptable.getCode() + "-"
                 + sequenceEcritureComptable.getAnnee().toString() + "/" + formattedSequenceNumber;
         pEcritureComptable.setReference(reference);
 
@@ -151,7 +150,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 
             getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sequenceEcritureComptable);
         } else {
-            getDaoProxy().getComptabiliteDao().insertNewSequence(sequenceEcritureComptable);
+            getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(sequenceEcritureComptable);
         }
 
         pEcritureComptable.setReference(reference);
@@ -244,12 +243,11 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      * @throws FunctionalException Si l'Ecriture comptable ne respecte pas les
      *                             règles de gestion
      */
-    protected void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException {
+    public void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException {
 
         // ===== RG_Compta_6 : La référence d'une écriture comptable doit être unique
         if (StringUtils.isNoneEmpty(pEcritureComptable.getReference())) {
             try {
-                System.out.println("\n debut methode RG 6 ");
                 // Recherche d'une écriture ayant la même référence
                 EcritureComptable vECRef = getDaoProxy().getComptabiliteDao()
                         .getEcritureComptableByRef(
