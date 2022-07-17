@@ -1,4 +1,4 @@
-package com.dummy.myerp.business.testIntegration;
+package com.dummy.myerp.business.integration;
 
 import static org.junit.Assert.assertNotNull;
 
