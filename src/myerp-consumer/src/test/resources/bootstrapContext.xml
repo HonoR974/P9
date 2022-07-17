@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
+
     <!-- ====================   Consumer   ==================== -->
     <!-- AbstractDbConsumer -->
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -19,10 +20,6 @@
         </property>
     </bean>
 
-    <!-- DaoProxy -->
-    <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
-        <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
-    </bean>
 
     <!-- ==================== Consumer-Proxy ==================== -->
 
@@ -38,14 +35,22 @@
     </bean>
 
 
-    <!-- Configuration de la datasource du docker -->
+    <!-- DaoProxy -->
+    <bean id="DaoProxy" class="com.dummy.myerp.consumer.dao.impl.DaoProxyImpl" factory-method="getInstance">
+        <property name="comptabiliteDao" ref="ComptabiliteDaoImpl"/>
+    </bean>
+
+
+
     <bean id="dataSourceMYERP" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver" />
-        <property name="url" value="jdbc:postgresql://localhost:5432/db_myerp" />
+        <!--<property name="url" value="jdbc:postgresql://192.168.99.100:5432/db_myerp" />-->
+        <property name="url" value="jdbc:postgresql://postgres/db_myerp"/>
         <property name="username" value="usr_myerp" />
         <property name="password" value="myerp" />
     </bean>
 
+
     <!-- ========== SQL ========== -->
-    <import resource="classpath:/com/dummy/myerp/consumer/sqlContext.xml"/>
+    <import resource="classpath:com/dummy/myerp/consumer/sqlContext.xml"/>
 </beans>

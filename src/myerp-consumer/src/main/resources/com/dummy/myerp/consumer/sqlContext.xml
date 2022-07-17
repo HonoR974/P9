@@ -91,15 +91,18 @@
             </value>
         </property>
 
+        <!-- 
         <property name="sqlUpdateSequenceEcritureComptable">
             <value>
              UPDATE myerp.sequence_ecriture_comptable
-                SET derniere_valeur = :derniere_valeur
+                SET derniere_valeur = :derniere_valeur,
+                 journal_code = :journal_code,
+                  annee = :annee
                 WHERE annee = :annee    
             </value>
         </property>
 
-
+-->
     </bean>
 
 </beans>
