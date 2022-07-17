@@ -1,7 +1,8 @@
-package com.dummy.myerp.business.testIntegration;
+package com.dummy.myerp.business.integration;
 
 import com.dummy.myerp.business.contrat.BusinessProxy;
 import com.dummy.myerp.business.impl.TransactionManager;
+import com.dummy.myerp.business.integration.SpringRegistry;
 
 /**
  * Classe mère des classes de test d'intégration de la couche Business
