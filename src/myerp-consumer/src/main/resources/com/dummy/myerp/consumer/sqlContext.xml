@@ -93,14 +93,9 @@
 
         <property name="sqlUpdateSequenceEcritureComptable">
             <value>
-                UPDATE myerp.sequence_ecriture_comptable SET
-                    journal_code = :journal_code,
-                    annee = :annee,
-                    derniere_valeur = :derniere_valeur
-                WHERE
-                    journal_code = :journal_code
-                AND
-                    annee = :annee
+             UPDATE myerp.sequence_ecriture_comptable
+                SET derniere_valeur = :derniere_valeur
+                WHERE annee = :annee    
             </value>
         </property>
 
