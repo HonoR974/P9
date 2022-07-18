@@ -1,4 +1,4 @@
-package com.dummy.myerp.business.testUnitaire;
+package com.dummy.myerp.business.unitaire;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -369,11 +369,15 @@ public class ComptabiliteManagerImplTest {
                 EcritureComptable ecritureComptable = new EcritureComptable();
                 ecritureComptable.setReference("AC-2020/00001");
 
-                sampleEcritureComptable.setReference("BQ-2016/00005");
+                sampleEcritureComptable.setReference("AC-2020/00001");
+
+                Mockito.when(daoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
 
                 Mockito.when(daoProxy.getComptabiliteDao()
                                 .getEcritureComptableByRef(sampleEcritureComptable.getReference()))
                                 .thenReturn(ecritureComptable);
+
+                System.out.println("\n debut test  ");
 
                 Assertions.assertThatThrownBy(() -> objectToTest
                                 .checkEcritureComptableContext(sampleEcritureComptable))

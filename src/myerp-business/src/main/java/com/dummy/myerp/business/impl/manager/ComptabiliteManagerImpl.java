@@ -245,6 +245,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     public void checkEcritureComptableContext(EcritureComptable pEcritureComptable) throws FunctionalException {
 
+        System.out.println("\n ecriture recu " + pEcritureComptable.toString());
         // ===== RG_Compta_6 : La référence d'une écriture comptable doit être unique
         if (StringUtils.isNoneEmpty(pEcritureComptable.getReference())) {
             try {
