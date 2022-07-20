@@ -62,6 +62,19 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         return getDaoProxy().getComptabiliteDao().getListEcritureComptable();
     }
 
+    // get EcritureComptable by ID
+    @Override
+    public EcritureComptable getEcritureComptableById(int id) throws NotFoundException {
+        EcritureComptable ec = null;
+        try {
+            ec = getDaoProxy().getComptabiliteDao().getEcritureComptable(id);
+        } catch (NotFoundException nfe) {
+            throw new NotFoundException();
+        }
+
+        return ec;
+    }
+
     /**
      * {@inheritDoc}
      * * Le principe :
@@ -83,6 +96,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     public synchronized void addReference(EcritureComptable pEcritureComptable)
             throws FunctionalException, NotFoundException {
 
+        System.out.println("\n refto add " + pEcritureComptable.toString());
         // verifie la date et le journal
         if (pEcritureComptable.getDate() == null) {
             throw new FunctionalException(Constant.ECRITURE_COMPTABLE_DATE_NULL_FOR_ADD_REFERENCE);

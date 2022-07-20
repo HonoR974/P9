@@ -7,6 +7,7 @@ import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,9 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,21 +36,62 @@ import java.util.List;
 @Transactional(propagation = Propagation.REQUIRED)
 public class TestBusinessIntegration extends BusinessTestCase {
 
-    /**
-     * Constructeur.
-     */
+    private EcritureComptable sampleEcritureComptable;
+
     public TestBusinessIntegration() {
         super();
     }
-    /*
-     * On vérifie que l'on récupére bien tous les comptes comptables existants.
-     */
 
     @Test
-    public void testGetListCompteComptable() {
+    public void getListCompteComptable() {
         List<CompteComptable> compteComptableList = getBusinessProxy().getComptabiliteManager()
                 .getListCompteComptable();
+
         Assert.assertEquals(7, compteComptableList.size());
+    }
+
+    @Test
+    public void getListJournalComptable() {
+        List<JournalComptable> journalComptableList = getBusinessProxy().getComptabiliteManager()
+                .getListJournalComptable();
+        Assert.assertEquals(4, journalComptableList.size());
+    }
+
+    @Test
+    public void getListEcritureComptable() {
+        List<EcritureComptable> ecritureComptableList = getBusinessProxy().getComptabiliteManager()
+                .getListEcritureComptable();
+        Assert.assertEquals(5, ecritureComptableList.size());
+    }
+
+    @Before
+    public void init() {
+
+        sampleEcritureComptable = new EcritureComptable();
+        sampleEcritureComptable.setId(6);
+        sampleEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        sampleEcritureComptable.setDate(new Date());
+        sampleEcritureComptable.setLibelle("Libelle");
+        sampleEcritureComptable.setReference("AC-2020/00001");
+        sampleEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, new BigDecimal(123),
+                null));
+        sampleEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(2),
+                null, null,
+                new BigDecimal(123)));
+
+        System.out.println("\n before method ");
+    }
+
+    @Test
+    public void addReference() throws NotFoundException, FunctionalException {
+
+        /*
+         * getBusinessProxy().getComptabiliteManager().addReference(
+         * sampleEcritureComptable);
+         * Assert.assertEquals("AC-2020/00001", sampleEcritureComptable.getReference());
+         * 
+         */
     }
 
 }
